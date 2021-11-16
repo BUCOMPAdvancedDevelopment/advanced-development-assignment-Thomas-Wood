@@ -1,0 +1,21 @@
+{% extends "authDependentPage.html" %}
+
+{% block authenticatedContent %}
+<div>
+    <div>
+    <h1>Form submitted</h1>
+    </div>
+    <div>
+    <p>Thanks for your submission, {{author}}!</p>
+    <p>Here's a review of the information that you sent:</p>
+    <p>
+        <strong>Title</strong>: {{title}} <br>
+        <strong>Author</strong>: {{author}} <br>
+        <strong>Date</strong>: {{date}} <br>
+        <strong>Content</strong>: {{content}} <br>
+        <strong>Server Response</strong>: {{response}}
+    </p>
+    </div>
+</div>
+
+{% endblock %}
