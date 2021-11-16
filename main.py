@@ -54,15 +54,6 @@ def authenticateUser():
         }
 
 @app.route('/')
-def root():
-    authContent = authenticateUser()
-
-    # Return your page with any retrieved data (or return different pages if not logged in)
-    return render_template(
-        'authDependentPage.html',
-        user_data=authContent['user_data'],
-        error_message=authContent['error_message'])
-
 @app.route('/home')
 def home():
     return render_template('home.html')
@@ -71,6 +62,16 @@ def home():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+@app.route('/login')
+def login():
+    authContent = authenticateUser()
+
+    # Return your page with any retrieved data (or return different pages if not logged in)
+    return render_template(
+        'login.html',
+        user_data=authContent['user_data'],
+        error_message=authContent['error_message'])
 
 @app.route('/post')
 def form():
