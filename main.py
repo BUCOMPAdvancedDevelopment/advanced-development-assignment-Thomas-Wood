@@ -4,12 +4,9 @@ import datetime
 from flask import Flask, render_template, request
 
 from google.auth.transport import requests as googleRequests
-from google.cloud import datastore
 import google.oauth2.id_token
 
 firebase_request_adapter = googleRequests.Request()
-
-datastore_client = datastore.Client()
 
 app = Flask(__name__)
 
