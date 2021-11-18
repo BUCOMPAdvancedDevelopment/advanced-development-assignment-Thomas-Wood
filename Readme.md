@@ -31,6 +31,6 @@ To start the server (Ctrl + c to shutdown)
 
 `python app/main.py`
 
-To run the tests
+To run the tests (from the root directory)
 
-`python -m unittest`
+`python -m unittest discover -s tests`

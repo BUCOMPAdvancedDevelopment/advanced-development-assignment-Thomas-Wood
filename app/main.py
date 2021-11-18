@@ -113,17 +113,12 @@ def submitted_form():
 
 @app.errorhandler(500)
 def server_error(error):
-    # Log the error and stacktrace.
-    print("500 error occured:")
-    print(error)
     logging.exception('An error occurred during a request.')
     return 'An internal error occurred.', 500
 
 
 @app.errorhandler(404)
 def page_not_found(error):
-    print("404 error occured:")
-    print(error)
     return render_template('404.html'), 404
 
 
