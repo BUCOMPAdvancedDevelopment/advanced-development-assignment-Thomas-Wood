@@ -15,8 +15,8 @@ app = Flask(__name__)
 #     response=requests.get(url)
 #     return(response.content)
 
-def authenticateUser():
 
+def authenticateUser():
     """ Claims contains the following attributes:
     name: '{string}'
     picture: '{url}'
@@ -49,9 +49,10 @@ def authenticateUser():
             # Expired tokens etc
             error_message = str(exc)
     return {
-        "user_data" : claims,
-        "error_message" : error_message
-        }
+        "user_data": claims,
+        "error_message": error_message
+    }
+
 
 @app.route('/')
 @app.route('/home')
@@ -63,6 +64,7 @@ def home():
 def about():
     return render_template('about.html')
 
+
 @app.route('/login')
 def login():
     authContent = authenticateUser()
@@ -73,27 +75,29 @@ def login():
         user_data=authContent['user_data'],
         error_message=authContent['error_message'])
 
+
 @app.route('/post')
 def form():
     authContent = authenticateUser()
 
     return render_template('post.html',
-        user_data=authContent['user_data'],
-        error_message=authContent['error_message'])
+                           user_data=authContent['user_data'],
+                           error_message=authContent['error_message'])
+
 
 @app.route('/submitted', methods=['POST'])
 def submitted_form():
     authContent = authenticateUser()
 
     params = {
-        'title':request.form['title'],
-        'author':request.form['author'],
-        'content':request.form['content'],
-        'currentDate':datetime.datetime.now().strftime("%Y/%m/%d")
+        'title': request.form['title'],
+        'author': request.form['author'],
+        'content': request.form['content'],
+        'currentDate': datetime.datetime.now().strftime("%Y/%m/%d")
     }
 
-    url= "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/mongodbpost"
-    response=requests.get(url, params)
+    url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/mongodbpost"
+    response = requests.get(url, params)
 
     return render_template(
         'submitted_form.html',
@@ -108,15 +112,19 @@ def submitted_form():
 
 
 @app.errorhandler(500)
-def server_error(e):
+def server_error(error):
     # Log the error and stacktrace.
+    print("500 error occured:")
+    print(error)
     logging.exception('An error occurred during a request.')
     return 'An internal error occurred.', 500
 
+
 @app.errorhandler(404)
 def page_not_found(error):
+    print("404 error occured:")
+    print(error)
     return render_template('404.html'), 404
-
 
 
 if __name__ == '__main__':
