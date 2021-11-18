@@ -2,9 +2,43 @@
 
 {% block content %}
 
-<div class="starter-template">
-  <h1>Welcome to BTEC Furniture </h1>
-  <p class="lead">Where your furniture just does the job</p>
-</div>
+  <div class="starter-template">
+    <h1>Welcome to BTEC Furniture </h1>
+    <p class="lead">Where your furniture just does the job</p>
+  </div>
+
+  <div class="container">
+
+    <div class="row justify-content-center" style="padding: 5px;">
+      {% for i in range(0, 3) %}
+        <div class="col-4">
+          <div class="card">
+            <img class="card-img-top" src="https://d.newsweek.com/en/full/1524152/cadbury-chocolate.jpg" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">Product name</h5>
+              <p class="card-text">Why you should buy this amazing product</p>
+              <a href="#" class="btn btn-primary">Add</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="row justify-content-center" style="padding: 5px;">
+      {% for i in range(0, 3) %}
+        <div class="col-4">
+          <div class="card">
+            <img class="card-img-top" src="https://d.newsweek.com/en/full/1524152/cadbury-chocolate.jpg" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">Product name</h5>
+              <p class="card-text">Why you should buy this amazing product</p>
+              <a href="#" class="btn btn-primary">Add to basket?</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+  </div>  
 
 {% endblock %}
