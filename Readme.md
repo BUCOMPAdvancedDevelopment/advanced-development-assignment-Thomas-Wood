@@ -23,11 +23,11 @@ This folder contains information on the set up of the databases including starti
 
 ## tests
 
-This folder contaisn all the unit tests for this project. It makes use of the [unittest](https://docs.python.org/3/library/unittest.html) framework for Python.
+This folder contains all the unit tests for this project. It makes use of the [unittest](https://docs.python.org/3/library/unittest.html) framework for Python.
 
 # Tests
 
-_Description of the layout of the tests_
+Each file tests a single other file. The test file is the name of the file being tested prefixed by "test\_". For example: main.py is tested in the test_main.py file.
 
 # Useful commands
 
