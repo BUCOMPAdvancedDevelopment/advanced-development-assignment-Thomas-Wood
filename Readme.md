@@ -17,6 +17,10 @@ The app folder contains the main Flask application that servers the web pages.
 
 This folder contains the source code for functions stored and used in Google Cloud Functions.
 
+## databaseDetails
+
+This folder contains information on the set up of the databases including starting sample data.
+
 ## tests
 
 This folder contaisn all the unit tests for this project. It makes use of the [unittest](https://docs.python.org/3/library/unittest.html) framework for Python.
