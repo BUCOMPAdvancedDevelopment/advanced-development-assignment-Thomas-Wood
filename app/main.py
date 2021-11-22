@@ -1,6 +1,7 @@
 import logging
 import requests
 import datetime
+import json
 from flask import Flask, render_template, request
 
 from google.auth.transport import requests as googleRequests
@@ -9,11 +10,6 @@ import google.oauth2.id_token
 firebase_request_adapter = googleRequests.Request()
 
 app = Flask(__name__)
-
-# def hello():
-#     url= "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/hellow-world"
-#     response=requests.get(url)
-#     return(response.content)
 
 
 def authenticateUser():
@@ -54,10 +50,27 @@ def authenticateUser():
     }
 
 
+def formatProductData(products):
+    newFormat = []
+    currentRow = []
+    for product in products:
+        currentRow.append(product)
+        if len(currentRow) == 3:
+            newFormat.append(currentRow)
+            currentRow = []
+    if len(currentRow) != 0:
+        newFormat.append(currentRow)
+    return newFormat
+
+
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('home.html')
+    url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/mongodbdisplay"
+    response = requests.get(url)
+    product_info = formatProductData(
+        json.loads(response.content.decode("utf-8")))
+    return render_template('home.html', product_info=product_info)
 
 
 @app.route('/about')
