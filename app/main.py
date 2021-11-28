@@ -70,7 +70,6 @@ def home():
     response = requests.get(url)
     product_info = formatProductData(
         json.loads(response.content.decode("utf-8")))
-    print(product_info[0][0]['_id']['$oid'])
     return render_template('home.html', product_info=product_info)
 
 
