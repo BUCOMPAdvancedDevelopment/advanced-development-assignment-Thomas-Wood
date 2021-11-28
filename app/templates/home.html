@@ -14,7 +14,7 @@
         {% for product in row %}
           <div class="col-4">
             <div class="card">
-              <img class="card-img-top" src="https://storage.googleapis.com/synthetic-cargo-products/{{product['_id']['$oid']}}.jpg" alt="Card image cap">
+              <img class="card-img-top" src="https://storage.googleapis.com/synthetic-cargo-products/{{product['_id']['$oid']}}.jpg" alt="Image of {{product.title}}">
               <div class="card-body">
                 <h5 class="card-title">{{product.title}}</h5>
                 <p class="card-text">£{{product.pricePerUnit}}</p>
