@@ -8,7 +8,7 @@ import json
 # Cloud function to get product details from mongo
 
 
-def get_mongodb_items(request):
+def read_mongodb_products(request):
     client = MongoClient(
         "mongodb+srv://AD-DB-User:%26h8Xt2Q%23V%26SG@cluster0.pglda.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 

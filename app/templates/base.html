@@ -21,11 +21,12 @@
 
   <!-- Nav bar set up -->
   {% set navigation_bar_left = [('/', 'home', 'Home'), 
-                           ('/about', 'about', 'About'),
-                           ('/post','post','Post')] 
+                                ('/about', 'about', 'About'),
+                                ('/post','post','Post')] 
   -%}
 
-  {% set navigation_bar_right = [('/login','login','Login')]
+  {% set navigation_bar_right = [('/login','login','Login'),
+                                 ('/admin','admin','Admin')]
   -%}
 
   {% set active_page = active_page|default('home') -%}

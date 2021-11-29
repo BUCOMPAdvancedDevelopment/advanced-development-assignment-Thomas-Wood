@@ -2,7 +2,7 @@ import logging
 import requests
 import datetime
 import json
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for, redirect
 
 from google.auth.transport import requests as googleRequests
 import google.oauth2.id_token
@@ -34,7 +34,7 @@ def authenticateUser():
     # Verify Firebase auth.
     id_token = request.cookies.get("token")
     error_message = None
-    claims = None
+    claims = "Test"  # TODO Remove before commit
     if id_token:
         try:
             # Verify the token against the Firebase Auth API.
@@ -89,39 +89,50 @@ def login():
         error_message=authContent['error_message'])
 
 
-@app.route('/post')
+@app.route('/admin')
 def form():
     authContent = authenticateUser()
 
-    return render_template('post.html',
-                           user_data=authContent['user_data'],
-                           error_message=authContent['error_message'])
+    # If not authenticated
+    if authContent['user_data'] == None:
+        return redirect(url_for('login'))
+    else:
+        return render_template('admin.html',
+                               user_data=authContent['user_data'],
+                               error_message=authContent['error_message'])
 
 
 @app.route('/submitted', methods=['POST'])
 def submitted_form():
     authContent = authenticateUser()
 
-    params = {
-        'title': request.form['title'],
-        'author': request.form['author'],
-        'content': request.form['content'],
-        'currentDate': datetime.datetime.now().strftime("%Y/%m/%d")
-    }
+    # If not authenticated
+    if authContent['user_data'] == None:
+        return redirect(url_for('login'))
+    else:
+        params = {
+            "title": str(request.form['title']),
+            "description": str(request.form['description']),
+            "pricePerUnit": str(request.form['pricePerUnit']),
+            "qty": int(request.form['qty']),
+            "tags": request.form['tags']
+        }
 
-    url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/mongodbpost"
-    response = requests.get(url, params)
+        # TODO Change url to new function
+        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/create_mongodb_product"
+        response = requests.get(url, params)
 
-    return render_template(
-        'submitted_form.html',
-        title=params['title'],
-        author=params['author'],
-        content=params['content'],
-        date=params['currentDate'],
-        user_data=authContent['user_data'],
-        error_message=authContent['error_message'],
-        response=response.content
-    )
+        return render_template(
+            'submitted_form.html',
+            title=params['title'],
+            description=params['description'],
+            pricePerUnit=params['pricePerUnit'],
+            qty=params['qty'],
+            tags=params['tags'],
+            user_data=authContent['user_data'],
+            error_message=authContent['error_message'],
+            response=response.content
+        )
 
 
 @app.errorhandler(500)
