@@ -10,7 +10,7 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/home')
 def home():
-    url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/mongodbdisplay"
+    url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/read_mongodb_products"
     response = requests.get(url)
     product_info = tools.formatProductData(
         json.loads(response.content.decode("utf-8")))
@@ -41,7 +41,7 @@ def form():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     else:
-        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/mongodbdisplay"
+        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/read_mongodb_products"
         response = requests.get(url)
         product_info = json.loads(response.content.decode("utf-8"))
         return render_template('admin.html',
