@@ -50,8 +50,8 @@ def form():
                                error_message=authContent['error_message'])
 
 
-@app.route('/submitted', methods=['POST'])
-def submitted_form():
+@app.route('/create_product_submitted', methods=['POST'])
+def create_product_submitted_form():
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
     # If not authenticated
@@ -67,6 +67,39 @@ def submitted_form():
         }
 
         url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/create_mongodb_product"
+        response = requests.get(url, params)
+
+        return render_template(
+            'submitted_form.html',
+            title=params['title'],
+            description=params['description'],
+            pricePerUnit=params['pricePerUnit'],
+            qty=params['qty'],
+            tags=params['tags'],
+            user_data=authContent['user_data'],
+            error_message=authContent['error_message'],
+            response=response.content
+        )
+
+
+@app.route('/update_product_submitted', methods=['POST'])
+def update_product_submitted_form():
+    authContent = tools.authenticateUser(request.cookies.get("token"))
+
+    # If not authenticated
+    if authContent['user_data'] == None:
+        return redirect(url_for('login'))
+    else:
+        params = {
+            "id": str(request.form['id']),
+            "title": str(request.form['title']),
+            "description": str(request.form['description']),
+            "pricePerUnit": str(request.form['pricePerUnit']),
+            "qty": int(request.form['qty']),
+            "tags": request.form['tags']
+        }
+
+        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/update_mongodb_product"
         response = requests.get(url, params)
 
         return render_template(

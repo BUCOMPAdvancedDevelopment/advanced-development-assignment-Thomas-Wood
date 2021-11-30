@@ -24,12 +24,6 @@ def read_mongodb_products(request):
 
     myCursor = None
 
-    # create queries
-    #title_query = {"title": {"$eq": "Man walks on the moon"}}
-    #author_query = {"author": {"$eq": "Faker"}}
-    #dateCreated_query = {"dateCreated": {"$eq": 2019}}
-    #myCursor = db.find(title_query)
-
     myCursor = db.find()
     list_items = list(myCursor)
     json_data = dumps(list_items)

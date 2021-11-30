@@ -10,7 +10,7 @@
 <h4>User Data</h4>
 <button data-toggle="collapse" data-target="#create-product-text">Create Product</button>
 <div id="create-product-text" class="collapse">
-    <form method="post" action="{{ url_for('submitted_form') }}">
+    <form method="post" action="{{ url_for('create_product_submitted_form') }}">
         <label for="title">Title:</label>
         <input type="text" name="title"><br />
         <label for="description">Description:</label>
@@ -26,11 +26,16 @@
 </div><br />
 <button data-toggle="collapse" data-target="#read-product-text">Read Product</button>
 <div id="read-product-text" class="collapse">
-    {{product_info}}
+    {% for product in product_info %}
+        <p>{{product['_id']['$oid']}} | {{product.title}} | £{{product.pricePerUnit}} | {{product.description[0:30]}}...</p>
+    {% endfor %}
 </div><br />
 <button data-toggle="collapse" data-target="#update-product-text">Update Product</button>
 <div id="update-product-text" class="collapse">
-    <form method="post" action="{{ url_for('submitted_form') }}">
+    <h4>Leave boxes blank if you don't want to edit them</h4>
+    <form method="post" action="{{ url_for('update_product_submitted_form') }}">
+        <label for="id">ID:</label>
+        <input type="text" name="id" required><br />
         <label for="title">Title:</label>
         <input type="text" name="title"><br />
         <label for="description">Description:</label>
@@ -46,7 +51,7 @@
 </div><br />
 <button data-toggle="collapse" data-target="#delete-product-text">Delete Product</button>
 <div id="delete-product-text" class="collapse">
-    <form method="post" action="{{ url_for('submitted_form') }}">
+    <form method="post" action="{{ url_for('create_product_submitted_form') }}">
         <label for="title">Title:</label>
         <input type="text" name="title"><br />
         <label for="description">Description:</label>
