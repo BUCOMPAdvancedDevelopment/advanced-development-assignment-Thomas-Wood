@@ -41,7 +41,11 @@ def form():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     else:
+        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/mongodbdisplay"
+        response = requests.get(url)
+        product_info = json.loads(response.content.decode("utf-8"))
         return render_template('admin.html',
+                               product_info=product_info,
                                user_data=authContent['user_data'],
                                error_message=authContent['error_message'])
 

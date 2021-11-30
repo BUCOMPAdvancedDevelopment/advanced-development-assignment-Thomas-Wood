@@ -2,11 +2,14 @@
 
 {% block content %}
 
-<div class="starter-template">
-  <h1>Enter new product details </h1>
+<div>
+  <h1>Admin Page</h1>
+  <h2>Click each button to show the inputs for that functionality</h2>
 </div>
 
-<div id="main">
+<h4>User Data</h4>
+<button data-toggle="collapse" data-target="#create-product-text">Create Product</button>
+<div id="create-product-text" class="collapse">
     <form method="post" action="{{ url_for('submitted_form') }}">
         <label for="title">Title:</label>
         <input type="text" name="title"><br />
@@ -20,7 +23,43 @@
         <input name="tags" pattern="[a-z]+|([a-z]+,)+[a-z]+"><br />
         <input type="submit">
     </form>
-</div>
+</div><br />
+<button data-toggle="collapse" data-target="#read-product-text">Read Product</button>
+<div id="read-product-text" class="collapse">
+    {{product_info}}
+</div><br />
+<button data-toggle="collapse" data-target="#update-product-text">Update Product</button>
+<div id="update-product-text" class="collapse">
+    <form method="post" action="{{ url_for('submitted_form') }}">
+        <label for="title">Title:</label>
+        <input type="text" name="title"><br />
+        <label for="description">Description:</label>
+        <textarea type="text" name="description"></textarea><br />
+        <label for="pricePerUnit">Price Per Unit:</label>
+        <input name="pricePerUnit"><br />
+        <label for="qty">Quantity:</label>
+        <input name="qty"><br />
+        <label for="tags">Tags as a comma separate list, no spaces, a-z only, 1 tag minimum:</label>
+        <input name="tags" pattern="[a-z]+|([a-z]+,)+[a-z]+"><br />
+        <input type="submit">
+    </form>
+</div><br />
+<button data-toggle="collapse" data-target="#delete-product-text">Delete Product</button>
+<div id="delete-product-text" class="collapse">
+    <form method="post" action="{{ url_for('submitted_form') }}">
+        <label for="title">Title:</label>
+        <input type="text" name="title"><br />
+        <label for="description">Description:</label>
+        <textarea type="text" name="description"></textarea><br />
+        <label for="pricePerUnit">Price Per Unit:</label>
+        <input name="pricePerUnit"><br />
+        <label for="qty">Quantity:</label>
+        <input name="qty"><br />
+        <label for="tags">Tags as a comma separate list, no spaces, a-z only, 1 tag minimum:</label>
+        <input name="tags" pattern="[a-z]+|([a-z]+,)+[a-z]+"><br />
+        <input type="submit">
+    </form>
+</div><br />
 
 
 {% endblock %}
