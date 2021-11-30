@@ -1,66 +1,10 @@
 import logging
 import requests
-import datetime
 import json
 from flask import Flask, render_template, request, url_for, redirect
-
-from google.auth.transport import requests as googleRequests
-import google.oauth2.id_token
-
-firebase_request_adapter = googleRequests.Request()
+import tools
 
 app = Flask(__name__)
-
-
-def authenticateUser():
-    """ Claims contains the following attributes:
-    name: '{string}'
-    picture: '{url}'
-    iss: 'https://securetoken.google.com/{project name}'
-    aud: '{project name}'
-    auth_time: '{time you authenticated at}'
-    user_id: '{Long string}'
-    sub: '{long string same as user_id, maybe for sub-accounts}'
-    iat: {Login started at}
-    exp: {Login expires at}
-    email: {user's email address}
-    email_verified: {Boolean}
-    firebase: {identities: 
-                {'google.com': ['{Long number}'],
-                'email': ['{user's email address}']},
-              'sign_in_provider': 'google.com'}}
-    """
-
-    # Verify Firebase auth.
-    id_token = request.cookies.get("token")
-    error_message = None
-    claims = "Test"  # TODO Remove before commit
-    if id_token:
-        try:
-            # Verify the token against the Firebase Auth API.
-            claims = google.oauth2.id_token.verify_firebase_token(
-                id_token, firebase_request_adapter)
-            # Grab your auth sensitive data here
-        except ValueError as exc:
-            # Expired tokens etc
-            error_message = str(exc)
-    return {
-        "user_data": claims,
-        "error_message": error_message
-    }
-
-
-def formatProductData(products):
-    newFormat = []
-    currentRow = []
-    for product in products:
-        currentRow.append(product)
-        if len(currentRow) == 3:
-            newFormat.append(currentRow)
-            currentRow = []
-    if len(currentRow) != 0:
-        newFormat.append(currentRow)
-    return newFormat
 
 
 @app.route('/')
@@ -68,7 +12,7 @@ def formatProductData(products):
 def home():
     url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/mongodbdisplay"
     response = requests.get(url)
-    product_info = formatProductData(
+    product_info = tools.formatProductData(
         json.loads(response.content.decode("utf-8")))
     return render_template('home.html', product_info=product_info)
 
@@ -80,7 +24,7 @@ def about():
 
 @app.route('/login')
 def login():
-    authContent = authenticateUser()
+    authContent = tools.authenticateUser(request.cookies.get("token"))
 
     # Return your page with any retrieved data (or return different pages if not logged in)
     return render_template(
@@ -91,7 +35,7 @@ def login():
 
 @app.route('/admin')
 def form():
-    authContent = authenticateUser()
+    authContent = tools.authenticateUser(request.cookies.get("token"))
 
     # If not authenticated
     if authContent['user_data'] == None:
@@ -104,7 +48,7 @@ def form():
 
 @app.route('/submitted', methods=['POST'])
 def submitted_form():
-    authContent = authenticateUser()
+    authContent = tools.authenticateUser(request.cookies.get("token"))
 
     # If not authenticated
     if authContent['user_data'] == None:
