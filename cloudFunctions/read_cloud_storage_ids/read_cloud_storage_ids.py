@@ -1,6 +1,5 @@
 from google.cloud import storage
-from flask import Blueprint, request, jsonify
-import requests
+from bson.json_util import dumps
 
 
 def read_cloud_storage_ids(request):
@@ -18,4 +17,6 @@ def read_cloud_storage_ids(request):
     for blob in blobs:
         blobIds.append(blob.name)
 
-    return str(blobIds)
+    json_data = dumps(blobIds)
+
+    return json_data

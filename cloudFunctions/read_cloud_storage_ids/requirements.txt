@@ -1,3 +1,2 @@
-# Function dependencies, for example:
-# package>=version
+pymongo==3.9.0
 google-cloud-storage

@@ -41,11 +41,19 @@ def form():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     else:
+        # Get product text data
         url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/read_mongodb_products"
         response = requests.get(url)
         product_info = json.loads(response.content.decode("utf-8"))
+
+        # Get product image names
+        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/cloud-storage-product-get"
+        product_images = requests.get(url)
+        product_images = json.loads(product_images.content.decode("utf-8"))
+
         return render_template('admin.html',
                                product_info=product_info,
+                               product_images=product_images,
                                user_data=authContent['user_data'],
                                error_message=authContent['error_message'])
 

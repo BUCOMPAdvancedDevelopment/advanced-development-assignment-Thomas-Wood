@@ -7,7 +7,8 @@
   <h2>Click each button to show the inputs for that functionality</h2>
 </div>
 
-<h4>User Data</h4>
+<div>
+<h4>Product Data</h4>
 <button data-toggle="collapse" data-target="#create-product-text">Create Product</button>
 <div id="create-product-text" class="collapse">
     <form method="post" action="{{ url_for('create_product_submitted_form') }}">
@@ -57,6 +58,28 @@
         <input type="submit">
     </form>
 </div><br />
+</div>
 
+<div>
+    <h4>Product Image Data</h4>
+    <button data-toggle="collapse" data-target="#create-product-image">Upload Product Image</button>
+    <div id="create-product-image" class="collapse">
+        <p>TODO: ADD FILE UPLOAD THROUGH GOOGLE FUNCTIONS</p>
+    </div><br />
+    <button data-toggle="collapse" data-target="#read-product-image">View Product Image</button>
+    <div id="read-product-image" class="collapse">
+        {% for product in product_images %}
+            <p>{{product}}</p>
+        {% endfor %}
+    </div><br />
+    <button data-toggle="collapse" data-target="#update-product-image">Update Product Image</button>
+    <div id="update-product-image" class="collapse">
+        <p>TODO: ADD A SELECT FROM IMAGE IDS AND REPLACE WITH NEW UPLOAD IMAGE</p>
+    </div><br />
+    <button data-toggle="collapse" data-target="#delete-product-image">Delete Product Image</button>
+    <div id="delete-product-image" class="collapse">
+        <p>TODO: DELETE IMAGE BY NAME</p>
+    </div><br />
+    </div>
 
 {% endblock %}
