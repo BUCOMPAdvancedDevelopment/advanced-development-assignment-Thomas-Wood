@@ -115,6 +115,29 @@ def update_product_submitted_form():
         )
 
 
+@app.route('/delete_product_submitted', methods=['POST'])
+def delete_product_submitted_form():
+    authContent = tools.authenticateUser(request.cookies.get("token"))
+
+    # If not authenticated
+    if authContent['user_data'] == None:
+        return redirect(url_for('login'))
+    else:
+        params = {
+            "id": str(request.form['id'])
+        }
+
+        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/delete_mongodb_product"
+        response = requests.get(url, params)
+
+        return render_template(
+            'submitted_form.html',
+            user_data=authContent['user_data'],
+            error_message=authContent['error_message'],
+            response=response.content
+        )
+
+
 @app.errorhandler(500)
 def server_error(error):
     logging.exception('An error occurred during a request.')

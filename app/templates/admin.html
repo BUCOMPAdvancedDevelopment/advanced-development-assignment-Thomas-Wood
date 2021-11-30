@@ -51,17 +51,9 @@
 </div><br />
 <button data-toggle="collapse" data-target="#delete-product-text">Delete Product</button>
 <div id="delete-product-text" class="collapse">
-    <form method="post" action="{{ url_for('create_product_submitted_form') }}">
-        <label for="title">Title:</label>
-        <input type="text" name="title"><br />
-        <label for="description">Description:</label>
-        <textarea type="text" name="description"></textarea><br />
-        <label for="pricePerUnit">Price Per Unit:</label>
-        <input name="pricePerUnit"><br />
-        <label for="qty">Quantity:</label>
-        <input name="qty"><br />
-        <label for="tags">Tags as a comma separate list, no spaces, a-z only, 1 tag minimum:</label>
-        <input name="tags" pattern="[a-z]+|([a-z]+,)+[a-z]+"><br />
+    <form method="post" action="{{ url_for('delete_product_submitted_form') }}">
+        <label for="id">ID:</label>
+        <input type="text" name="id"><br />
         <input type="submit">
     </form>
 </div><br />
