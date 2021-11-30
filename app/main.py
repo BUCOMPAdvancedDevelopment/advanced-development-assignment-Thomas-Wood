@@ -118,7 +118,6 @@ def submitted_form():
             "tags": request.form['tags']
         }
 
-        # TODO Change url to new function
         url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/create_mongodb_product"
         response = requests.get(url, params)
 

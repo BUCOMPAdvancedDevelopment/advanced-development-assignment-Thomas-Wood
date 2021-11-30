@@ -1,0 +1,126 @@
+[{
+  "_id": {
+    "$oid": "619bb55c11dd33ac12d5aa0c"
+  },
+  "title": "Custom Multi-Wood Desk in White",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae nunc sed velit dignissim sodales ut eu sem. Suspendisse interdum consectetur libero id faucibus nisl tincidunt.",
+  "pricePerUnit": "265.00",
+  "qty": 5,
+  "imageIDs": [],
+  "tags": [
+    "Desk",
+    "Wood",
+    "Large"
+  ]
+},{
+  "_id": {
+    "$oid": "619bb55c11dd33ac12d5aa0d"
+  },
+  "title": "Matt Black Adjustable Lamp with Brass Accents",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor aliquam nulla facilisi cras fermentum odio eu feugiat. Mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien et.",
+  "pricePerUnit": "21.50",
+  "qty": 32,
+  "imageIDs": [],
+  "tags": [
+    "Lamp",
+    "Medium",
+    "LED"
+  ]
+},{
+  "_id": {
+    "$oid": "619bb55c11dd33ac12d5aa0e"
+  },
+  "title": "Faux Leather Gaming Chair In Red",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor aliquam nulla facilisi cras fermentum odio eu feugiat. Mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien et.",
+  "pricePerUnit": "149.99",
+  "qty": 32,
+  "imageIDs": [],
+  "tags": [
+    "Chair",
+    "Medium",
+    "Gaming"
+  ]
+},{
+  "_id": {
+    "$oid": "619bb55c11dd33ac12d5aa0f"
+  },
+  "title": "Grey Office Chair with Mesh Back",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor aliquam nulla facilisi cras fermentum odio eu feugiat. Mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien et.",
+  "pricePerUnit": "80.40",
+  "qty": 32,
+  "imageIDs": [],
+  "tags": [
+    "Chair",
+    "Medium",
+    "Office"
+  ]
+},{
+  "_id": {
+    "$oid": "619bb55c11dd33ac12d5aa10"
+  },
+  "title": "Freestanding Pine Three Drawer Set",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor aliquam nulla facilisi cras fermentum odio eu feugiat. Mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien et.",
+  "pricePerUnit": "70.00",
+  "qty": 32,
+  "imageIDs": [],
+  "tags": [
+    "Drawers",
+    "Medium",
+    "Wood"
+  ]
+},{
+  "_id": {
+    "$oid": "619bb55c11dd33ac12d5aa11"
+  },
+  "title": "Colour Coded Desk Tidy",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor aliquam nulla facilisi cras fermentum odio eu feugiat. Mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien et.",
+  "pricePerUnit": "16.00",
+  "qty": 32,
+  "imageIDs": [],
+  "tags": [
+    "Drawers",
+    "Small",
+    "Tabletop"
+  ]
+},{
+  "_id": {
+    "$oid": "619bb55c11dd33ac12d5aa12"
+  },
+  "title": "Premium Oak Dinning Table with Black Base",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor aliquam nulla facilisi cras fermentum odio eu feugiat. Mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien et.",
+  "pricePerUnit": "405.00",
+  "qty": 32,
+  "imageIDs": [],
+  "tags": [
+    "Dining",
+    "Large",
+    "Wood"
+  ]
+},{
+  "_id": {
+    "$oid": "61a4b7a20d74b88dbbac99e7"
+  },
+  "title": "Coffee Mats",
+  "description": "A cheerful set of coffee mats",
+  "pricePerUnit": "4.99",
+  "qty": 5,
+  "tags": "small,mat,bright"
+},{
+  "_id": {
+    "$oid": "61a4b87fd5c619a494c22149"
+  },
+  "title": "Plastic Bin",
+  "description": "A simple grey plastic bin",
+  "pricePerUnit": "6.99",
+  "qty": 12,
+  "tags": "small,bin"
+},{
+  "_id": {
+    "$oid": "61a4b90ab147c2b617da98f9"
+  },
+  "title": "Oak Coffee Table",
+  "description": "A refined yet simple oak coffee table",
+  "pricePerUnit": "35.40",
+  "qty": 4,
+  "tags": "medium,wood,table"
+}]
