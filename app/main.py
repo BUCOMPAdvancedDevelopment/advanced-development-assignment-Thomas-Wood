@@ -1,3 +1,4 @@
+import base64
 import logging
 import requests
 import json
@@ -74,8 +75,22 @@ def create_product_submitted_form():
             "tags": request.form['tags']
         }
 
-        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/create_mongodb_product"
-        response = requests.get(url, params)
+        # Create the product text in MongoDB
+        mongoUrl = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/create_mongodb_product"
+        mongoResponse = requests.get(mongoUrl, params)
+
+        # Upload the image to Google Cloud Storage
+        id = mongoResponse.content.decode('utf-8')
+
+        base64Image = base64.b64encode(request.files['image'].read())
+
+        googleUrl = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/upload_cloud_storage_image"
+        googleParams = {
+            "id": id,
+            "image": base64Image
+        }
+        googleResponse = requests.post(
+            googleUrl, googleParams)
 
         return render_template(
             'submitted_form.html',
@@ -86,7 +101,7 @@ def create_product_submitted_form():
             tags=params['tags'],
             user_data=authContent['user_data'],
             error_message=authContent['error_message'],
-            response=response.content
+            response="Successfully added to databases!"
         )
 
 
