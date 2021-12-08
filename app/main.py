@@ -67,6 +67,8 @@ def create_product_submitted_form():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     else:
+
+        # Create the product text in MongoDB
         params = {
             "title": str(request.form['title']),
             "description": str(request.form['description']),
@@ -74,16 +76,12 @@ def create_product_submitted_form():
             "qty": int(request.form['qty']),
             "tags": request.form['tags']
         }
-
-        # Create the product text in MongoDB
         mongoUrl = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/create_mongodb_product"
         mongoResponse = requests.get(mongoUrl, params)
 
         # Upload the image to Google Cloud Storage
         id = mongoResponse.content.decode('utf-8')
-
         base64Image = base64.b64encode(request.files['image'].read())
-
         googleUrl = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/upload_cloud_storage_image"
         googleParams = {
             "id": id,
