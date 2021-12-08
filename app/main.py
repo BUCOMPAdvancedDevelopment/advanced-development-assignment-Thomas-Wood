@@ -34,6 +34,33 @@ def login():
         error_message=authContent['error_message'])
 
 
+@app.route('/update_product')
+def update_product():
+    authContent = tools.authenticateUser(request.cookies.get("token"))
+
+    # If not authenticated
+    if authContent['user_data'] == None:
+        return redirect(url_for('login'))
+    else:
+        product_id = request.args.get('id')
+
+        # Get product text data
+        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/read_mongodb_products"
+        response = requests.get(url, {'id': product_id})
+        product_info = json.loads(response.content.decode("utf-8"))
+
+        # Change the tag list into a string for formatting
+        formattedTags = ""
+        for tag in product_info['tags']:
+            formattedTags += tag + ","
+        formattedTags = formattedTags[0:-1]
+        product_info['tags'] = formattedTags.lower()
+
+        return render_template('update_product.html',
+                               product_info=product_info,
+                               user_data=authContent['user_data'])
+
+
 @app.route('/admin')
 def form():
     authContent = tools.authenticateUser(request.cookies.get("token"))
@@ -55,8 +82,7 @@ def form():
         return render_template('admin.html',
                                product_info=product_info,
                                product_images=product_images,
-                               user_data=authContent['user_data'],
-                               error_message=authContent['error_message'])
+                               user_data=authContent['user_data'])
 
 
 @app.route('/create_product_submitted', methods=['POST'])
@@ -74,9 +100,10 @@ def create_product_submitted_form():
             "description": str(request.form['description']),
             "pricePerUnit": str(request.form['pricePerUnit']),
             "qty": int(request.form['qty']),
-            "tags": request.form['tags']
+            "tags": request.form['tags'].split(",")
         }
         mongoUrl = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/create_mongodb_product"
+        # TODO Change this and related Google function to use post not get
         mongoResponse = requests.get(mongoUrl, params)
 
         # Upload the image to Google Cloud Storage
@@ -104,24 +131,43 @@ def create_product_submitted_form():
 
 
 @app.route('/update_product_submitted', methods=['POST'])
-def update_product_submitted_form():
+def update_product_submitted():
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
     # If not authenticated
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     else:
+        serverResponse = ""
+
+        # Update MongoDB
         params = {
             "id": str(request.form['id']),
             "title": str(request.form['title']),
             "description": str(request.form['description']),
             "pricePerUnit": str(request.form['pricePerUnit']),
             "qty": int(request.form['qty']),
-            "tags": request.form['tags']
+            "tags": request.form['tags'].split(",")
         }
-
         url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/update_mongodb_product"
         response = requests.get(url, params)
+
+        serverResponse += "Text Updated"
+
+        # Update image in cloud storage
+        if request.files['image'].filename == '':
+            serverResponse += " and image not updated"
+        else:
+            id = str(request.form['id'])
+            base64Image = base64.b64encode(request.files['image'].read())
+            googleUrl = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/upload_cloud_storage_image"
+            googleParams = {
+                "id": id,
+                "image": base64Image
+            }
+            googleResponse = requests.post(
+                googleUrl, googleParams)
+            serverResponse += " and image updated"
 
         return render_template(
             'submitted_form.html',
@@ -132,7 +178,7 @@ def update_product_submitted_form():
             tags=params['tags'],
             user_data=authContent['user_data'],
             error_message=authContent['error_message'],
-            response=response.content
+            response=serverResponse
         )
 
 
