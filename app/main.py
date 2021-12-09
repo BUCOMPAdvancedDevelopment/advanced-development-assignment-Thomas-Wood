@@ -42,6 +42,8 @@ def update_product():
     # If not authenticated
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
+    elif authContent['user_data'].admin == False:
+        return "403 forbidden", 403
     else:
         product_id = request.args.get('id')
 
@@ -69,6 +71,8 @@ def form():
     # If not authenticated
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
+    elif authContent['user_data'].admin == False:
+        return "403 forbidden", 403
     else:
         # Get product text data
         url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/read_mongodb_products"
@@ -87,6 +91,8 @@ def create_product_submitted_form():
     # If not authenticated
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
+    elif authContent['user_data'].admin == False:
+        return "403 forbidden", 403
     else:
 
         imageID = str(uuid.uuid4())
@@ -135,6 +141,8 @@ def update_product_submitted():
     # If not authenticated
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
+    elif authContent['user_data'].admin == False:
+        return "403 forbidden", 403
     else:
         serverResponse = ""
 
@@ -188,7 +196,6 @@ def update_product_submitted():
 
             serverResponse += " and old image deleted"
 
-        # TODO Make function to turn tags list into string
         return render_template(
             'submitted_form.html',
             title=params['title'],
@@ -209,6 +216,8 @@ def delete_product_submitted_form():
     # If not authenticated
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
+    elif authContent['user_data'].admin == False:
+        return "403 forbidden", 403
     else:
         params = {
             "id": str(request.form['id'])

@@ -24,9 +24,25 @@
                                 ('/about', 'about', 'About')] 
   -%}
 
-  {% set navigation_bar_right = [('/login','login','Login'),
-                                 ('/admin','admin','Admin')]
-  -%}
+  {% if user_data %}
+    {% if user_data.admin %}
+      {% set navigation_bar_right = [
+        ('/login','login','Profile'),
+        ('/admin','admin','Admin')
+        ]
+      -%}
+    {% else %}
+      {% set navigation_bar_right = [
+        ('/login','login','Profile')
+        ]
+      -%}
+    {% endif %}
+  {% else %}
+    {% set navigation_bar_right = [
+      ('/login','login','Login')
+      ]
+    -%}
+  {% endif %}
 
   {% set active_page = active_page|default('home') -%}
 
