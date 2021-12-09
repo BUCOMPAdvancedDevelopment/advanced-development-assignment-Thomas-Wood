@@ -17,7 +17,7 @@ def read_mongodb_user(request):
 
     myCursor = None
 
-    userId = request.args['id']
+    userId = request.args['userId']
 
     print("Attempting to access ID: " + userId)
     myquery = {"userId": userId}
