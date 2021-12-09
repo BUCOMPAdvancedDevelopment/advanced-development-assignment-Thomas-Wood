@@ -12,16 +12,23 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/home')
 def home():
+    authContent = tools.authenticateUser(request.cookies.get("token"))
+
     url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/read_mongodb_products"
     response = requests.get(url)
     product_info = tools.formatProductData(
         json.loads(response.content.decode("utf-8")))
-    return render_template('home.html', product_info=product_info)
+    return render_template('home.html',
+                           product_info=product_info,
+                           user_data=authContent['user_data'])
 
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    authContent = tools.authenticateUser(request.cookies.get("token"))
+
+    return render_template('about.html',
+                           user_data=authContent['user_data'])
 
 
 @app.route('/login')
