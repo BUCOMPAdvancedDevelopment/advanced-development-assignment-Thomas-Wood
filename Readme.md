@@ -42,9 +42,6 @@ To run the tests (from the root directory)
 # TODO
 
 Add nice functions for calling google functions
-Add User accounts & permissions
-
-- Restrict each page to certain account requirements
 
 Add orders
 
