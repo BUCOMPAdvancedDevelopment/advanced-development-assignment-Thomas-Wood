@@ -98,7 +98,7 @@ def create_product_submitted_form():
             "pricePerUnit": str(request.form['pricePerUnit']),
             "qty": int(request.form['qty']),
             "imageID": imageID,
-            "tags": request.form['tags'].split(",")
+            "tags": request.form['tags']
         }
         mongoUrl = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/create_mongodb_product"
         # TODO Change this and related Google function to use post not get
@@ -153,7 +153,7 @@ def update_product_submitted():
             "pricePerUnit": str(request.form['pricePerUnit']),
             "qty": int(request.form['qty']),
             "imageID": newImageID,
-            "tags": request.form['tags'].split(",")
+            "tags": request.form['tags']
         }
         url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/update_mongodb_product"
         response = requests.get(url, params)
@@ -173,12 +173,20 @@ def update_product_submitted():
             }
             googleResponse = requests.post(
                 googleUrl, googleParams)
-
-            # Remove old image
-            print("Remove old image")
-            # TODO Remove old image
+            print("Add image response: " + str(googleResponse.content))
 
             serverResponse += " and image updated"
+
+            # Remove old image
+            googleUrl = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/delete_cloud_storage_image"
+            googleParams = {
+                "id": oldImageID
+            }
+            googleResponse = requests.post(
+                googleUrl, googleParams)
+            print("Delete image response: " + str(googleResponse.content))
+
+            serverResponse += " and old image deleted"
 
         # TODO Make function to turn tags list into string
         return render_template(
@@ -206,8 +214,23 @@ def delete_product_submitted_form():
             "id": str(request.form['id'])
         }
 
+        # Get product imageID data
+        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/read_mongodb_products"
+        response = requests.get(url, params)
+        imageID = json.loads(response.content.decode("utf-8"))['imageID']
+
+        # Remove Mongo object
         url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/delete_mongodb_product"
         response = requests.get(url, params)
+
+        # Remove image
+        googleUrl = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/delete_cloud_storage_image"
+        googleParams = {
+            "id": str(imageID)
+        }
+        googleResponse = requests.post(
+            googleUrl, googleParams)
+        print("Delete image response: " + str(googleResponse.content))
 
         # TODO Make delete html page
         return render_template(
