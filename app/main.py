@@ -49,7 +49,7 @@ def update_product():
     # If not authenticated
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
-    elif authContent['user_data'].admin == False:
+    elif authContent['user_data']['admin'] == False:
         return "403 forbidden", 403
     else:
         product_id = request.args.get('id')
@@ -78,7 +78,7 @@ def form():
     # If not authenticated
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
-    elif authContent['user_data'].admin == False:
+    elif authContent['user_data']['admin'] == False:
         return "403 forbidden", 403
     else:
         # Get product text data
@@ -98,7 +98,7 @@ def create_product_submitted_form():
     # If not authenticated
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
-    elif authContent['user_data'].admin == False:
+    elif authContent['user_data']['admin'] == False:
         return "403 forbidden", 403
     else:
 
@@ -148,7 +148,7 @@ def update_product_submitted():
     # If not authenticated
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
-    elif authContent['user_data'].admin == False:
+    elif authContent['user_data']['admin'] == False:
         return "403 forbidden", 403
     else:
         serverResponse = ""
@@ -223,7 +223,7 @@ def delete_product_submitted_form():
     # If not authenticated
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
-    elif authContent['user_data'].admin == False:
+    elif authContent['user_data']['admin'] == False:
         return "403 forbidden", 403
     else:
         params = {
