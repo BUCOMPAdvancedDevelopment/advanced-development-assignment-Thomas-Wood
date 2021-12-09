@@ -1,30 +1,16 @@
 [{
   "_id": {
-    "$oid": "619bb55c11dd33ac12d5aa0c"
-  },
-  "title": "Custom Multi-Wood Desk in White",
-  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae nunc sed velit dignissim sodales ut eu sem. Suspendisse interdum consectetur libero id faucibus nisl tincidunt.",
-  "pricePerUnit": "265.00",
-  "qty": 5,
-  "imageIDs": [],
-  "tags": [
-    "Desk",
-    "Wood",
-    "Large"
-  ]
-},{
-  "_id": {
     "$oid": "619bb55c11dd33ac12d5aa0d"
   },
   "title": "Matt Black Adjustable Lamp with Brass Accents",
-  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor aliquam nulla facilisi cras fermentum odio eu feugiat. Mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien et.",
+  "description": "This matt lamp with shining accents will standout stylishly in any room that needs a classy feel.",
   "pricePerUnit": "21.50",
-  "qty": 32,
-  "imageIDs": [],
+  "qty": "12",
+  "imageID": "619bb55c11dd33ac12d5aa0d",
   "tags": [
     "Lamp",
-    "Medium",
-    "LED"
+    "Small",
+    "black"
   ]
 },{
   "_id": {
@@ -33,8 +19,8 @@
   "title": "Faux Leather Gaming Chair In Red",
   "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor aliquam nulla facilisi cras fermentum odio eu feugiat. Mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien et.",
   "pricePerUnit": "149.99",
-  "qty": 32,
-  "imageIDs": [],
+  "qty": "32",
+  "imageID": "619bb55c11dd33ac12d5aa0e",
   "tags": [
     "Chair",
     "Medium",
@@ -48,7 +34,7 @@
   "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor aliquam nulla facilisi cras fermentum odio eu feugiat. Mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien et.",
   "pricePerUnit": "80.40",
   "qty": 32,
-  "imageIDs": [],
+  "imageID": "619bb55c11dd33ac12d5aa0f",
   "tags": [
     "Chair",
     "Medium",
@@ -62,7 +48,7 @@
   "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor aliquam nulla facilisi cras fermentum odio eu feugiat. Mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien et.",
   "pricePerUnit": "70.00",
   "qty": 32,
-  "imageIDs": [],
+  "imageID": "619bb55c11dd33ac12d5aa10",
   "tags": [
     "Drawers",
     "Medium",
@@ -76,7 +62,7 @@
   "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor aliquam nulla facilisi cras fermentum odio eu feugiat. Mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien et.",
   "pricePerUnit": "16.00",
   "qty": 32,
-  "imageIDs": [],
+  "imageID": "619bb55c11dd33ac12d5aa11",
   "tags": [
     "Drawers",
     "Small",
@@ -90,7 +76,7 @@
   "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor aliquam nulla facilisi cras fermentum odio eu feugiat. Mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien et.",
   "pricePerUnit": "405.00",
   "qty": 32,
-  "imageIDs": [],
+  "imageID": "619bb55c11dd33ac12d5aa12",
   "tags": [
     "Dining",
     "Large",
@@ -98,29 +84,47 @@
   ]
 },{
   "_id": {
-    "$oid": "61a4b7a20d74b88dbbac99e7"
+    "$oid": "61af7fb9f3546563bb951524"
   },
-  "title": "Coffee Mats",
-  "description": "A cheerful set of coffee mats",
-  "pricePerUnit": "4.99",
+  "title": "Red Dresser",
+  "description": "The elegant red dresser will fit any brightly coloured room!",
+  "pricePerUnit": "75.00",
   "qty": 5,
-  "tags": "small,mat,bright"
+  "imageID": "61af7fb9f3546563bb951524",
+  "tags": [
+    "Red",
+    "Wood",
+    "Dresser",
+    "Large"
+  ]
 },{
   "_id": {
-    "$oid": "61a4b87fd5c619a494c22149"
+    "$oid": "61b079e75b63d5957b768d55"
   },
-  "title": "Plastic Bin",
-  "description": "A simple grey plastic bin",
-  "pricePerUnit": "6.99",
-  "qty": 12,
-  "tags": "small,bin"
+  "title": "Hexagonal Coffee Table Set",
+  "description": "This table set will fit any room because hexagons are the best-agons!",
+  "pricePerUnit": "135.00",
+  "qty": 6,
+  "imageID": "61b079e75b63d5957b768d55",
+  "tags": [
+    "Hexagonal",
+    "Table",
+    "Large",
+    "Wood",
+    "Metal"
+  ]
 },{
   "_id": {
-    "$oid": "61a4b90ab147c2b617da98f9"
+    "$oid": "61b0ccb0b45156626480401a"
   },
-  "title": "Oak Coffee Table",
-  "description": "A refined yet simple oak coffee table",
-  "pricePerUnit": "35.40",
-  "qty": 4,
-  "tags": "medium,wood,table"
+  "title": "Red and Black fabric Sofa",
+  "description": "The red and black sofa will fit well into any contrasting room with bright colours. Express yourself!",
+  "pricePerUnit": "269.00",
+  "qty": "2",
+  "imageID": "61b0ccb0b45156626480401a",
+  "tags": [
+    "Sofa",
+    "Large",
+    "Red"
+  ]
 }]

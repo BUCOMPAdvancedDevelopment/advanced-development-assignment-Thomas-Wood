@@ -20,6 +20,7 @@ def create_mongodb_product(request):
         "description": str(request.args['description']),
         "pricePerUnit": str(request.args['pricePerUnit']),
         "qty": int(request.args['qty']),
+        "imageID": str(request.args['imageID']),
         "tags": request.args['tags']
     }
 

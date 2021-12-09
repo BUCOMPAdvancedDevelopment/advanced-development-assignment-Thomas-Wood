@@ -38,3 +38,8 @@ To start the server (Ctrl + c to shutdown)
 To run the tests (from the root directory)
 
 `python -m unittest discover -s tests`
+
+TODO
+
+Test image create -> change details -> change image all work
+Fix lists in MongoDB
