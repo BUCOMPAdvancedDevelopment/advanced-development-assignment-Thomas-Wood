@@ -65,7 +65,7 @@ def authenticateUser(token):
 def getUserData(userId, email, name):
     url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/read_mongodb_users"
     data = {
-        'id': userId,
+        'userId': userId,
         'email': email,
         'name': name
     }

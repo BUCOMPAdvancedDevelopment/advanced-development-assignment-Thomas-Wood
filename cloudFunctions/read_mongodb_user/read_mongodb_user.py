@@ -27,6 +27,7 @@ def read_mongodb_user(request):
         # Create an account
         print("Account not found, create account")
         data = {
+            'userId': request.args['userId'],
             'email': request.args['email'],
             'name': request.args['name'],
             'admin': False,
