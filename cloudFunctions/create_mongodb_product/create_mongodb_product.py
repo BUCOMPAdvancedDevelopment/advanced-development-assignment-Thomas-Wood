@@ -21,7 +21,7 @@ def create_mongodb_product(request):
         "pricePerUnit": str(request.args['pricePerUnit']),
         "qty": int(request.args['qty']),
         "imageID": str(request.args['imageID']),
-        "tags": request.args['tags']
+        "tags": request.args['tags'].strip(',')
     }
 
     result = db.insert_one(product_data)

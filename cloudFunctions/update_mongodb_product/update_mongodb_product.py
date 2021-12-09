@@ -27,7 +27,7 @@ def update_mongodb_product(request):
     if request.args['qty']:
         data_to_change.update({'qty': request.args['qty']})
     if request.args['tags']:
-        data_to_change.update({'tags': request.args['tags']})
+        data_to_change.update({'tags': request.args['tags'].strip(',')})
 
     myquery = {"_id": ObjectId(request.args['id'])}
     newvalues = {"$set": data_to_change}

@@ -39,7 +39,15 @@ To run the tests (from the root directory)
 
 `python -m unittest discover -s tests`
 
-TODO
+# TODO
 
-Test image create -> change details -> change image all work
-Fix lists in MongoDB
+Add nice functions for calling google functions
+Add User accounts & permissions
+
+- Restrict each page to certain account requirements
+
+Add orders
+
+- order creation
+- order editing
+- order tracking (viewing)
