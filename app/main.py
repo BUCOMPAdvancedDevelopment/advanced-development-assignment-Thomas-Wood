@@ -218,6 +218,7 @@ def delete_product_submitted_form():
         url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/delete_mongodb_product"
         response = requests.get(url, params)
 
+        # TODO Make delete html page
         return render_template(
             'submitted_form.html',
             user_data=authContent['user_data'],

@@ -61,7 +61,12 @@
                     <td>£{{product.pricePerUnit}}</td>
                     <td>{{product.qty}}</td>
                     <td><img style="max-height: 50px;width: auto;" src="https://storage.googleapis.com/synthetic-cargo-products/{{product.imageID}}.jpg" alt="Image of {{product.title}}"></td>
-                    <td><a role="button" class="btn btn-danger" href="/delete_product_submitted?id={{product['_id']['$oid']}}" class="btn btn-primary">Delete</a></td>
+                    <td>
+                        <form method="post" action="{{ url_for('delete_product_submitted_form') }}">
+                            <input type="text" name="id" value="{{product['_id']['$oid']}}" style="visibility: hidden;">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
