@@ -66,6 +66,9 @@ function addToBasket(product_id) {
     if (this.readyState == 4 && this.status == 201) {
       document.getElementById(addedId).innerHTML = "Added " + inputVal + " to basket";
       document.getElementById(addedId).hidden = false;
+    } else if (this.readyState == 4 && this.status == 403) {
+      document.getElementById(addedId).innerHTML = "Token expired, please login again";
+      document.getElementById(addedId).hidden = false;
     }
   };
 

@@ -66,10 +66,27 @@ def basket():
 
 @app.route('/addToBasket', methods=['POST'])
 def addToBasket():
-    id = request.form['id']
-    qty = request.form['qty']
-    print("Added " + qty + " of " + id + " to basket!")
-    return "Success", 201
+    authContent = tools.authenticateUser(request.cookies.get("token"))
+
+    # If not authenticated
+    if authContent['user_data'] == None:
+        return "Token expired", 403
+    else:
+        productId = request.form['id']
+        qty = request.form['qty']
+        userId = authContent['user_data']['userId']
+
+        googleUrl = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/add_mongodb_user_basket"
+        googleParams = {
+            "userId": userId,
+            "productId": productId,
+            "qty": qty
+        }
+        googleResponse = requests.post(
+            googleUrl, googleParams)
+
+        print("Added " + qty + " of " + id + " to basket!")
+        return "Success", 201
 
 
 @app.route('/update_product')
