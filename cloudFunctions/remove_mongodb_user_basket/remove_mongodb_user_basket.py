@@ -15,7 +15,7 @@ def remove_mongodb_user_basket(request):
     print("Connection successful to collection")
 
     userId = request.form['userId']
-    basketIndex = request.form['basketIndex']
+    basketIndex = int(request.form['basketIndex'])
 
     myquery = {"userId": userId}
     basket = db.find_one(myquery)['basket']
