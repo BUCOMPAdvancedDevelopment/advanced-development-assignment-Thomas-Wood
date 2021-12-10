@@ -53,11 +53,11 @@ def basket():
         # Add some details to the products
         runningTotal = 0
         for item in authContent['user_data']['basket']:
-            product = tools.getProduct(item.productID)
-            item.title = product['title']
-            item.imageID = product['imageID']
-            item.pricePerUnit = float(product['pricePerUnit'])
-            runningTotal += item.pricePerUnit*item.qty
+            product = tools.getProduct(item['productId'])
+            item['title'] = product['title']
+            item['imageID'] = product['imageID']
+            item['pricePerUnit'] = float(product['pricePerUnit'])
+            runningTotal += item['pricePerUnit']*item['qty']
 
         return render_template('basket.html',
                                user_data=authContent['user_data'],
