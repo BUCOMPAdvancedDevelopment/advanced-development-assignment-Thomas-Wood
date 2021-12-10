@@ -20,13 +20,13 @@
                 <h5 class="card-title">{{product.title}}</h5>
                 <p class="card-text">£{{product.pricePerUnit}}</p>
                 <p class="card-text">{{product.description}}...</p>
-                <div class="row" style="padding: 5px; justify-content: center;">
-                  <label style="padding-right: 10px; padding-left: 10px;" for="qty">Quantity</label>
-                  <input style="width: 70%;" id="{{product_id}}-qty" type="number" name="qty" class="form-control" value="0" required>
-                </div>
                 {% if user_data %}
-                <button class="btn btn-primary" onclick="addToBasket('{{product_id}}')">Add to basket</button>
-                <p id="{{product_id}}-added" class="card-text" hidden=true></p>
+                  <div class="row" style="padding: 5px; justify-content: center;">
+                    <label style="padding-right: 10px; padding-left: 10px;" for="qty">Quantity</label>
+                    <input style="width: 70%;" id="{{product_id}}-qty" type="number" name="qty" class="form-control" value="0" required>
+                  </div>
+                  <button class="btn btn-primary" onclick="addToBasket('{{product_id}}')">Add to basket</button>
+                  <p id="{{product_id}}-added" class="card-text" hidden=true></p>
                 {% endif %}
                 {% if user_data.admin %}
                   <button href="/update_product?id={{product_id}}" class="btn btn-primary">Edit product</button>

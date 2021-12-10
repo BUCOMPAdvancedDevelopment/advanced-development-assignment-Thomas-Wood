@@ -85,7 +85,6 @@ def addToBasket():
         googleResponse = requests.post(
             googleUrl, googleParams)
 
-        print("Added " + qty + " of " + id + " to basket!")
         return "Success", 201
 
 
