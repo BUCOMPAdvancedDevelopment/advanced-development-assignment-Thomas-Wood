@@ -65,7 +65,7 @@ def basket():
                                totalPrice=runningTotal)
 
 
-@app.route('/addToBasket', methods=['POST'])
+@app.route('/add_to_basket', methods=['POST'])
 def addToBasket():
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
@@ -87,6 +87,28 @@ def addToBasket():
             googleUrl, googleParams)
 
         return "Success", 201
+
+
+@app.route('/remove_from_basket', methods=['POST'])
+def removeFromBasket():
+    authContent = tools.authenticateUser(request.cookies.get("token"))
+
+    # If not authenticated
+    if authContent['user_data'] == None:
+        return "Token expired", 403
+    else:
+        basketIndex = request.form['basketIndex']
+        userId = authContent['user_data']['userId']
+
+        googleUrl = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/remove_mongodb_user_basket"
+        googleParams = {
+            "userId": userId,
+            "basketIndex": basketIndex
+        }
+        googleResponse = requests.post(
+            googleUrl, googleParams)
+
+        return redirect(url_for('basket'))
 
 
 @app.route('/update_product')

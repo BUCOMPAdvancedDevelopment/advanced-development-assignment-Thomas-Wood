@@ -75,7 +75,7 @@ function addToBasket(product_id) {
   document.getElementById(addedId).innerHTML = "Adding to basket...";
   document.getElementById(addedId).hidden = false;
 
-  xhttp.open("POST", "/addToBasket", true);
+  xhttp.open("POST", "/add_to_basket", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   let postData = "id=" + product_id + "&qty=" + inputVal
   xhttp.send(postData);

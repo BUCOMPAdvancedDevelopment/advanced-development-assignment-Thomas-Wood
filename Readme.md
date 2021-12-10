@@ -47,9 +47,7 @@ Comment functions
 
 Add basket
 
-- Add item with qty to basket
 - remove item with qty from basket
-- view basket
 - submit order from basket
 
 Add orders
