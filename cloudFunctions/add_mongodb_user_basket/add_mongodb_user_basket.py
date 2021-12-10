@@ -22,17 +22,13 @@ def add_mongodb_user_basket(request):
         'qty': request.form['qty']
     }
 
-    print("Attempting to access ID: " + userId)
     myquery = {"userId": userId}
     basket = db.find_one(myquery)['basket']
-    print("Basket currently contains: " + str(basket))
 
     basket.append(productDetails)
-    print("Basket now contains: " + str(basket))
 
     newValues = {"$set": {"basket": basket}}
 
     response = db.update_one(myquery, newValues)
 
-    json_data = dumps(response)
-    return json_data
+    return "Updated basket", 201
