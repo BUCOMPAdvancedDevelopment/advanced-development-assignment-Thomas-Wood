@@ -27,7 +27,7 @@
                     <td>{{product.qty}}</td>
                     <td>£{{'%0.2f' % (product.pricePerUnit*product.qty)}}</td>
                     <td>
-                        <form method="post" action="{{ url_for('remove_from_basket') }}">
+                        <form method="post" action="{{ url_for('removeFromBasket') }}">
                             <input type="text" name="basketIndex" value="{{index}}" style="visibility: hidden;">
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
