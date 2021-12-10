@@ -57,7 +57,7 @@ def basket():
             item['title'] = product['title']
             item['imageID'] = product['imageID']
             item['pricePerUnit'] = float(product['pricePerUnit'])
-            runningTotal += item['pricePerUnit']*item['qty']
+            runningTotal += item['pricePerUnit']*int(item['qty'])
 
         return render_template('basket.html',
                                user_data=authContent['user_data'],
