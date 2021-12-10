@@ -18,7 +18,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for product in user_data['user_data']['basket'] %}
+            {% for product in user_data['basket'] %}
                 <tr>
                     <td><img style="max-height: 50px;width: auto;" src="https://storage.googleapis.com/synthetic-cargo-products/{{product.imageID}}.jpg" alt="Image of {{product.title}}"></td>
                     <td>{{product.title}}</td>
