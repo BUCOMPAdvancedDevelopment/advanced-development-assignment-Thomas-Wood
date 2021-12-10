@@ -42,6 +42,28 @@ def login():
         error_message=authContent['error_message'])
 
 
+@app.route('/basket')
+def basket():
+    authContent = tools.authenticateUser(request.cookies.get("token"))
+
+    # If not authenticated
+    if authContent['user_data'] == None:
+        return redirect(url_for('login'))
+    else:
+        # Add some details to the products
+        runningTotal = 0
+        for item in authContent['user_data']['basket']:
+            product = tools.getProduct(item['productID'])
+            item['title'] = product['title']
+            item['imageID'] = product['imageID']
+            item['pricePerUnit'] = float(product['pricePerUnit'])
+            runningTotal += item['pricePerUnit']*item['qty']
+
+        return render_template('basket.html',
+                               user_data=authContent['user_data'],
+                               totalPrice=runningTotal)
+
+
 @app.route('/update_product')
 def update_product():
     authContent = tools.authenticateUser(request.cookies.get("token"))

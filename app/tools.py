@@ -56,6 +56,7 @@ def authenticateUser(token):
         except ValueError as exc:
             # Expired tokens etc
             error_message = str(exc)
+            user_data = None
     return {
         "user_data": user_data,
         "error_message": error_message
@@ -73,3 +74,10 @@ def getUserData(userId, email, name):
     user_data = json.loads(response.content.decode("utf-8"))
 
     return user_data
+
+
+def getProduct(productId):
+    url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/read_mongodb_products"
+    response = requests.get(url, {'id': productId})
+    data = json.loads(response.content.decode("utf-8"))
+    return data

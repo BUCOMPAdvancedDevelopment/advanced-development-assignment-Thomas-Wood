@@ -41,10 +41,25 @@ To run the tests (from the root directory)
 
 # TODO
 
-Add nice functions for calling google functions
+Add more unit tests
+PEP8 check
+Comment functions
+
+Add basket
+
+- Add item with qty to basket
+- remove item with qty from basket
+- view basket
+- submit order from basket
 
 Add orders
 
 - order creation
 - order editing
 - order tracking (viewing)
+
+Admin edit and delete users
+
+Update databaseDetails folder with current data
+
+Change £ to pennies in DB

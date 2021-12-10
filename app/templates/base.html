@@ -28,12 +28,14 @@
     {% if user_data.admin %}
       {% set navigation_bar_right = [
         ('/login','login','Profile'),
+        ('/basket','basket','Basket'),
         ('/admin','admin','Admin')
         ]
       -%}
     {% else %}
       {% set navigation_bar_right = [
-        ('/login','login','Profile')
+        ('/login','login','Profile'),
+        ('/basket','basket','Basket')
         ]
       -%}
     {% endif %}

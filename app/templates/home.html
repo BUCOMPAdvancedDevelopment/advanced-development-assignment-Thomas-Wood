@@ -20,7 +20,9 @@
                 <p class="card-text">£{{product.pricePerUnit}}</p>
                 <p class="card-text">{{product.description}}...</p>
                 <a href="#" class="btn btn-primary">Add to basket</a>
-                <a href="/update_product?id={{product['_id']['$oid']}}" class="btn btn-primary">Edit product</a>
+                {% if user_data.admin %}
+                  <a href="/update_product?id={{product['_id']['$oid']}}" class="btn btn-primary">Edit product</a>
+                {% endif %}
               </div>
             </div>
           </div>
