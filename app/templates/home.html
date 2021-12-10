@@ -12,6 +12,7 @@
     {% for row in product_info %}
       <div class="row justify-content-center" style="padding: 5px;">
         {% for product in row %}
+          {% set product_id = product['_id']['$oid'] %}
           <div class="col-4">
             <div class="card">
               <img class="card-img-top" src="https://storage.googleapis.com/synthetic-cargo-products/{{product.imageID}}.jpg" alt="Image of {{product.title}}">
@@ -19,9 +20,14 @@
                 <h5 class="card-title">{{product.title}}</h5>
                 <p class="card-text">£{{product.pricePerUnit}}</p>
                 <p class="card-text">{{product.description}}...</p>
-                <a href="#" class="btn btn-primary">Add to basket</a>
+                <div class="row" style="padding: 5px; justify-content: center;">
+                  <label style="padding-right: 10px; padding-left: 10px;" for="qty">Quantity</label>
+                  <input style="width: 70%;" id="{{product_id}}-qty" type="number" name="qty" class="form-control" value="0" required>
+                </div>
+                <button class="btn btn-primary" onclick="addToBasket('{{product_id}}')">Add to basket</button>
+                <p id="{{product_id}}-added" class="card-text" hidden=true></p>
                 {% if user_data.admin %}
-                  <a href="/update_product?id={{product['_id']['$oid']}}" class="btn btn-primary">Edit product</a>
+                  <button href="/update_product?id={{product_id}}" class="btn btn-primary">Edit product</button>
                 {% endif %}
               </div>
             </div>

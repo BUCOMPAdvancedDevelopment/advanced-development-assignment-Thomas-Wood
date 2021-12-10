@@ -64,6 +64,14 @@ def basket():
                                totalPrice=runningTotal)
 
 
+@app.route('/addToBasket', methods=['POST'])
+def addToBasket():
+    id = request.form['id']
+    qty = request.form['qty']
+    print("Added " + qty + " of " + id + " to basket!")
+    return "Success", 201
+
+
 @app.route('/update_product')
 def update_product():
     authContent = tools.authenticateUser(request.cookies.get("token"))

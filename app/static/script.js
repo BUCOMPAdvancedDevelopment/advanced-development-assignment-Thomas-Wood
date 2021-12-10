@@ -54,3 +54,26 @@ window.addEventListener('load', function () {
     alert('Unable to log in: ' + error)
   });
 });
+
+function addToBasket(product_id) {
+  let inputId = product_id + "-qty"
+  let addedId = product_id + "-added"
+  let inputVal = document.getElementById(inputId).value;
+  var xhttp = new XMLHttpRequest();
+
+  /* Set how the response is handled */
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 201) {
+      document.getElementById(addedId).innerHTML = "Added " + inputVal + " to basket";
+      document.getElementById(addedId).hidden = false;
+    }
+  };
+
+  document.getElementById(addedId).innerHTML = "Adding to basket...";
+  document.getElementById(addedId).hidden = false;
+
+  xhttp.open("POST", "/addToBasket", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  let postData = "id=" + product_id + "&qty=" + inputVal
+  xhttp.send(postData);
+}
