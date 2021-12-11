@@ -9,7 +9,7 @@
 
 <div>
 <h4>Product Data</h4>
-<button data-toggle="collapse" data-target="#create-product-text" type="button" class="btn btn-primary">Create Product</button>
+<button data-toggle="collapse" data-target="#create-product-text" type="button" class="btn btn-info">Create Product</button>
 <div id="create-product-text" class="collapse">
     <form method="post" action="{{ url_for('create_product_submitted_form') }}" enctype="multipart/form-data">
         <div class="form-group">
@@ -39,7 +39,7 @@
         <button type="submit" class="btn btn-default">Submit</button>
     </form>
 </div><br><br>
-<button data-toggle="collapse" data-target="#delete-product-text" type="button" class="btn btn-primary">Delete Product</button>
+<button data-toggle="collapse" data-target="#delete-product-text" type="button" class="btn btn-info">Delete Product</button>
 <div id="delete-product-text" class="collapse">
     <table class="table">
         <thead>
