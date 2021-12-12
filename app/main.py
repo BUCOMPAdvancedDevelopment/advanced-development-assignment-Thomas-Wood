@@ -140,12 +140,12 @@ def submitOrder():
             runningTotal += float(product['pricePerUnit'])*int(item['qty'])
 
         orderDetails = {
-            'timestamp': datetime.now(),
+            'timestamp': str(datetime.now()),
             'name': request.form['name'],
             'address': request.form['address'],
             'paymentType': request.form['paymentType'],
             'content': authContent['user_data']['basket'],
-            'expectedDeliveryDate': datetime.now() + timedelta(days=7),
+            'expectedDeliveryDate': str(datetime.now() + timedelta(days=7)),
             'totalCost': runningTotal,
             'status': 'Preparing'
         }
