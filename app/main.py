@@ -1,5 +1,5 @@
 import base64
-from datetime import datetime
+from datetime import datetime, timedelta
 import logging
 import requests
 import json
@@ -145,7 +145,7 @@ def submitOrder():
             'address': request.form['address'],
             'paymentType': request.form['paymentType'],
             'content': authContent['user_data']['basket'],
-            'expectedDeliveryDate': datetime.now() + datetime.timedelta(days=7),
+            'expectedDeliveryDate': datetime.now() + timedelta(days=7),
             'totalCost': runningTotal,
             'status': 'Preparing'
         }
