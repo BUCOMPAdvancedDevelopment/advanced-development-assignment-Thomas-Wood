@@ -29,13 +29,15 @@
       {% set navigation_bar_right = [
         ('/login','login','Profile'),
         ('/basket','basket','Basket'),
+        ('/orders','orders','Orders'),
         ('/admin','admin','Admin')
         ]
       -%}
     {% else %}
       {% set navigation_bar_right = [
         ('/login','login','Profile'),
-        ('/basket','basket','Basket')
+        ('/basket','basket','Basket'),
+        ('/orders','orders','Orders'),
         ]
       -%}
     {% endif %}
