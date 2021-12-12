@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 
 @app.route('/')
-@app.route('/home')
+@app.route('/home', methods=['GET'])
 def home():
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
@@ -23,7 +23,7 @@ def home():
                            user_data=authContent['user_data'])
 
 
-@app.route('/about')
+@app.route('/about', methods=['GET'])
 def about():
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
@@ -31,7 +31,7 @@ def about():
                            user_data=authContent['user_data'])
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET'])
 def login():
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
@@ -42,7 +42,7 @@ def login():
         error_message=authContent['error_message'])
 
 
-@app.route('/basket')
+@app.route('/basket', methods=['GET'])
 def basket():
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
@@ -111,7 +111,28 @@ def removeFromBasket():
         return redirect(url_for('basket'))
 
 
-@app.route('/update_product')
+@app.route('/create_order', methods=['GET'])
+def createOrder():
+    authContent = tools.authenticateUser(request.cookies.get("token"))
+
+    # If not authenticated
+    if authContent['user_data'] == None:
+        return "Token expired", 403
+    else:
+        userId = authContent['user_data']['userId']
+
+        return render_template('create_order.html',
+                               user_data=authContent['user_data'])
+
+
+@app.route('/create_order', methods=['POST'])
+def submitOrder():
+    print("Recived form data...")
+    print(request.form)
+    return "Page not created", 200
+
+
+@app.route('/update_product', methods=['GET'])
 def update_product():
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
@@ -140,8 +161,8 @@ def update_product():
                                user_data=authContent['user_data'])
 
 
-@app.route('/admin')
-def form():
+@app.route('/admin', methods=['GET'])
+def admin():
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
     # If not authenticated

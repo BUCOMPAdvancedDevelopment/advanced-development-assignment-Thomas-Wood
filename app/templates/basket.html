@@ -8,6 +8,9 @@
 
 <div id="basket-table">
     <h2>Basket value: £{{'%0.2f' % totalPrice}}</h2>
+    <form method="post" action="{{ url_for('createOrder') }}">
+        <button type="submit" class="btn btn-success">Create Order</button>
+    </form>
     <table class="table">
         <thead>
             <tr>

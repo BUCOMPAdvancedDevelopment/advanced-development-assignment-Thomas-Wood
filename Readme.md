@@ -41,14 +41,19 @@ To run the tests (from the root directory)
 
 # TODO
 
-Add more unit tests
-PEP8 check
-Comment functions
-
 Add basket
 
-- remove item with qty from basket
 - submit order from basket
+  Contains:
+
+- Date time UTC stamp
+- Name of person to deliver to
+- Address for delivery
+- Payment method (radio buttons for CC / Paypal etc?)
+- Content (copy of basket and clear the basket)
+- Expected delivery date (now + 7 days?)
+- Total cost
+- Order status (Preparing / Dispatched / Delivered / Canceled)
 
 Add orders
 
@@ -58,6 +63,10 @@ Add orders
 
 Admin edit and delete users
 
-Update databaseDetails folder with current data
+Better submission pages
 
-Change £ to pennies in DB
+Add more unit tests
+PEP8 check
+Comment functions
+
+Update databaseDetails folder with current data
