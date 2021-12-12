@@ -112,6 +112,20 @@ def removeFromBasket():
         return redirect(url_for('basket'))
 
 
+@app.route('/orders', methods=['GET'])
+def viewOrders():
+    authContent = tools.authenticateUser(request.cookies.get("token"))
+
+    # If not authenticated
+    if authContent['user_data'] == None:
+        return "Token expired", 403
+    else:
+        userId = authContent['user_data']['userId']
+
+        return render_template('orders.html',
+                               user_data=authContent['user_data'])
+
+
 @app.route('/create_order', methods=['GET'])
 def createOrder():
     authContent = tools.authenticateUser(request.cookies.get("token"))
@@ -156,8 +170,7 @@ def submitOrder():
         response = requests.post(url, orderDetails)
         print(response)
 
-        return render_template('orders.html',
-                               user_data=authContent['user_data'])
+        return redirect(url_for('viewOrders'))
 
 
 @app.route('/update_product', methods=['GET'])

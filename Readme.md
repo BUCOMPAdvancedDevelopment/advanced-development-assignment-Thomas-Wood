@@ -50,7 +50,6 @@ Login page text says plz login when already logged in
 Add orders
 
 - order editing
-- order tracking (viewing)
 
 Admin edit and delete users
 
