@@ -1,4 +1,5 @@
 import base64
+from datetime import datetime
 import logging
 import requests
 import json
@@ -127,9 +128,39 @@ def createOrder():
 
 @app.route('/create_order', methods=['POST'])
 def submitOrder():
-    print("Recived form data...")
-    print(request.form)
-    return "Page not created", 200
+    authContent = tools.authenticateUser(request.cookies.get("token"))
+
+    # If not authenticated
+    if authContent['user_data'] == None:
+        return "Token expired", 403
+    else:
+        if request.form['card']:
+            paymentType = 'card'
+        else:
+            paymentType = 'paypal'
+
+        runningTotal = 0
+        for item in authContent['user_data']['basket']:
+            product = tools.getProduct(item['productId'])
+            runningTotal += float(product['pricePerUnit'])*int(item['qty'])
+
+        orderDetails = {
+            'timestamp': datetime.now(),
+            'name': request.form['name'],
+            'address': request.form['address'],
+            'paymentType': paymentType,
+            'content': authContent['user_data']['basket'],
+            'expectedDeliveryDate': datetime.now() + datetime.timedelta(days=7),
+            'totalCost': runningTotal,
+            'status': 'Preparing'
+        }
+
+        # Send to google function to create order and empty basket
+        print("Ready to send the following to the DB...")
+        print(orderDetails)
+
+        # Redirect to order page
+        return 'Page not created', 200
 
 
 @app.route('/update_product', methods=['GET'])

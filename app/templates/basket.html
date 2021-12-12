@@ -8,9 +8,11 @@
 
 <div id="basket-table">
     <h2>Basket value: £{{'%0.2f' % totalPrice}}</h2>
-    <form method="post" action="{{ url_for('createOrder') }}">
+    {% if totalPrice != 0 %}
+    <form method="get" action="{{ url_for('createOrder') }}">
         <button type="submit" class="btn btn-success">Create Order</button>
     </form>
+    {% endif %}
     <table class="table">
         <thead>
             <tr>
