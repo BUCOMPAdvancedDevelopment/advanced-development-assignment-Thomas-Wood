@@ -156,8 +156,8 @@ def submitOrder():
         response = requests.post(url, orderDetails)
         print(response)
 
-        # Redirect to order page
-        return 'Page not created', 200
+        return render_template('orders.html',
+                               user_data=authContent['user_data'])
 
 
 @app.route('/update_product', methods=['GET'])

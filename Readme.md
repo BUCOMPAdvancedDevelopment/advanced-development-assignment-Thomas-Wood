@@ -47,23 +47,8 @@ reduce qty after order is submitted
 
 Login page text says plz login when already logged in
 
-Add basket
-
-- submit order from basket
-  Contains:
-
-- Date time UTC stamp
-- Name of person to deliver to
-- Address for delivery
-- Payment method (radio buttons for CC / Paypal etc?)
-- Content (copy of basket and clear the basket)
-- Expected delivery date (now + 7 days?)
-- Total cost
-- Order status (Preparing / Dispatched / Delivered / Canceled)
-
 Add orders
 
-- order creation
 - order editing
 - order tracking (viewing)
 
