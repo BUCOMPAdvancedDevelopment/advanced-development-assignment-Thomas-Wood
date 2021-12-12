@@ -134,11 +134,6 @@ def submitOrder():
     if authContent['user_data'] == None:
         return "Token expired", 403
     else:
-        if request.form['card']:
-            paymentType = 'card'
-        else:
-            paymentType = 'paypal'
-
         runningTotal = 0
         for item in authContent['user_data']['basket']:
             product = tools.getProduct(item['productId'])
@@ -148,7 +143,7 @@ def submitOrder():
             'timestamp': datetime.now(),
             'name': request.form['name'],
             'address': request.form['address'],
-            'paymentType': paymentType,
+            'paymentType': request.form['paymentType'],
             'content': authContent['user_data']['basket'],
             'expectedDeliveryDate': datetime.now() + datetime.timedelta(days=7),
             'totalCost': runningTotal,

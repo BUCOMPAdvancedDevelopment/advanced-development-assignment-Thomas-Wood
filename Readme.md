@@ -42,7 +42,8 @@ To run the tests (from the root directory)
 # TODO
 
 Fix delete item from basket order (index not being set correctly)
-Fix edit item button not working
+
+Login page text says plz login when already logged in
 
 Add basket
 
