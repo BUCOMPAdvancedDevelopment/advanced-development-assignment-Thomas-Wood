@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from bson.json_util import loads
 
 # Cloud function to create an order and empty the basket
 
@@ -15,7 +16,19 @@ def add_mongodb_user_order(request):
     print("Connection successful to collection")
 
     userId = request.form['userId']
-    orderDetails = request.form['orderDetails']
+
+    content = loads(request.form['content'])
+
+    orderDetails = {
+            'timestamp': request.form['timestamp'],
+            'name': request.form['name'],
+            'address': request.form['address'],
+            'paymentType': request.form['paymentType'],
+            'content': content,
+            'expectedDeliveryDate': request.form['expectedDeliveryDate'],
+            'totalCost': request.form['totalCost'],
+            'status': request.form['status']
+    }
 
     myquery = {"userId": userId}
     orders = db.find_one(myquery)['orders']

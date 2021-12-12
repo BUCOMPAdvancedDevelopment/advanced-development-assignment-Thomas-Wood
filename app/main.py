@@ -140,24 +140,21 @@ def submitOrder():
             runningTotal += float(product['pricePerUnit'])*int(item['qty'])
 
         orderDetails = {
+            'userId': authContent['user_data']['userId'],
             'timestamp': str(datetime.now()),
             'name': request.form['name'],
             'address': request.form['address'],
             'paymentType': request.form['paymentType'],
-            'content': authContent['user_data']['basket'],
+            'content': json.dumps(authContent['user_data']['basket']),
             'expectedDeliveryDate': str(datetime.now() + timedelta(days=7)),
             'totalCost': runningTotal,
             'status': 'Preparing'
         }
 
-        params = {
-            'userId': authContent['user_data']['userId'],
-            'orderDetails': orderDetails
-        }
-
         # Send to google function to create order and empty basket
         url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/add_mongodb_user_order"
-        response = requests.post(url, params)
+        response = requests.post(url, orderDetails)
+        print(response)
 
         # Redirect to order page
         return 'Page not created', 200
