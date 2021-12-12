@@ -24,7 +24,6 @@
             </tr>
         </thead>
         <tbody>
-            {% set index=0 %}
             {% for product in user_data['basket'] %}
                 <tr>
                     <td><img style="max-height: 50px;width: auto;" src="https://storage.googleapis.com/synthetic-cargo-products/{{product.imageID}}.jpg" alt="Image of {{product.title}}"></td>
@@ -33,12 +32,11 @@
                     <td>£{{'%0.2f' % (product.pricePerUnit*product.qty)}}</td>
                     <td>
                         <form method="post" action="{{ url_for('removeFromBasket') }}">
-                            <input type="text" name="basketIndex" value="{{index}}" style="visibility: hidden;">
+                            <input type="text" name="basketIndex" value="{{loop.index0}}" style="visibility: hidden;">
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     </td>
                 </tr>
-                {% set index=index+1 %}
             {% endfor %}
         </tbody>
       </table>
