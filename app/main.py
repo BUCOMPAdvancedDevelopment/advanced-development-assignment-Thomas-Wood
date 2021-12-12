@@ -150,9 +150,14 @@ def submitOrder():
             'status': 'Preparing'
         }
 
+        params = {
+            'userId': authContent['user_data']['userId'],
+            'orderDetails': orderDetails
+        }
+
         # Send to google function to create order and empty basket
-        print("Ready to send the following to the DB...")
-        print(orderDetails)
+        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/add_mongodb_user_order"
+        response = requests.post(url, params)
 
         # Redirect to order page
         return 'Page not created', 200

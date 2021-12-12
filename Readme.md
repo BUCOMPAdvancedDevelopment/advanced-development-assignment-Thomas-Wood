@@ -41,7 +41,6 @@ To run the tests (from the root directory)
 
 # TODO
 
-Fix delete item from basket order (index not being set correctly)
 Add qty check before adding to basket
 grey out product is non left in stock
 reduce qty after order is submitted
