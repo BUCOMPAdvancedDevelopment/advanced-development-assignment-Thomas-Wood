@@ -22,12 +22,12 @@
         <tbody>
             {% for order in user_data['orders'] %}
                 <tr>
-                    <td>{{order.timestamp[0:9]}}</td>
+                    <td>{{order.timestamp[0:10]}}</td>
                     <td>{{order.name}}</td>
                     <td>{{order.address}}</td>
                     <td>{{order.paymentType}}</td>
                     <td>£{{order.totalCost}}</td>
-                    <td>{{order.expectedDeliveryDate[0:9]}}</td>
+                    <td>{{order.expectedDeliveryDate[0:10]}}</td>
                     <td>{{order.status}}</td>
                 </tr>
             {% endfor %}

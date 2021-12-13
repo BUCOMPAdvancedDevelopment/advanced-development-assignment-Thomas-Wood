@@ -42,22 +42,22 @@
                 <tbody>
                     {% for order in customer_data['orders'] %}
                         <tr>
-                            <td>{{order.timestamp[0:9]}}</td>
+                            <td>{{order.timestamp[0:10]}}</td>
                             <td>{{order.name}}</td>
                             <td>{{order.address}}</td>
                             <td>{{order.paymentType}}</td>
                             <td>£{{order.totalCost}}</td>
-                            <td>{{order.expectedDeliveryDate[0:9]}}</td>
-                            <td>{{order.status}}</td>
-                            <div class="form-group">
-                                <label for="orderStatusIndex{{loop.index0}}">Select list:</label>
-                                <select class="form-control" name="orderStatusIndex{{loop.index0}}">
-                                  <option value='Preparing' {% if order.status == 'Preparing'%}selected{% endif %}>Preparing</option>
-                                  <option value='Dispatched' {% if order.status == 'Dispatched'%}selected{% endif %}>Dispatched</option>
-                                  <option value='Delivered' {% if order.status == 'Delivered'%}selected{% endif %}>Delivered</option>
-                                  <option value='Cancelled' {% if order.status == 'Cancelled'%}selected{% endif %}>Cancelled</option>
-                                </select>
-                            </div>
+                            <td>{{order.expectedDeliveryDate[0:10]}}</td>
+                            <td>
+                                <div class="form-group">
+                                    <select class="form-control" name="orderStatusIndex{{loop.index0}}">
+                                    <option value='Preparing' {% if order.status == 'Preparing'%}selected{% endif %}>Preparing</option>
+                                    <option value='Dispatched' {% if order.status == 'Dispatched'%}selected{% endif %}>Dispatched</option>
+                                    <option value='Delivered' {% if order.status == 'Delivered'%}selected{% endif %}>Delivered</option>
+                                    <option value='Cancelled' {% if order.status == 'Cancelled'%}selected{% endif %}>Cancelled</option>
+                                    </select>
+                                </div>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
