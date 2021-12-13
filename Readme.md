@@ -59,4 +59,6 @@ Add more unit tests
 PEP8 check
 Comment functions
 
+break out similar functions
+
 Update databaseDetails folder with current data

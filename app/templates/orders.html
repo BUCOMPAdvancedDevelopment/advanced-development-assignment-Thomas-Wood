@@ -12,6 +12,7 @@
             <tr>
                 <th scope="col">Date</th>
                 <th scope="col">Addressee</th>
+                <th scope="col">Address</th>
                 <th scope="col">Payment Type</th>
                 <th scope="col">Total Cost</th>
                 <th scope="col">Expected delivery date</th>
@@ -23,6 +24,7 @@
                 <tr>
                     <td>{{order.timestamp[0:9]}}</td>
                     <td>{{order.name}}</td>
+                    <td>{{order.address}}</td>
                     <td>{{order.paymentType}}</td>
                     <td>£{{order.totalCost}}</td>
                     <td>{{order.expectedDeliveryDate[0:9]}}</td>
