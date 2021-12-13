@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from bson.json_util import loads
 
 # Cloud function to update users in mongo
 
@@ -18,9 +19,11 @@ def update_mongodb_user(request):
 
     orders = db.find_one(myquery)['orders']
 
+    statusList = loads(request.form['orderStatuses'])
+
     statusListIndex = 0
     for order in orders:
-        order['status'] = request.form['orderStatuses'][statusListIndex]
+        order['status'] = statusList[statusListIndex]
         statusListIndex += 1
 
     data_to_change = {

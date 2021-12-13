@@ -269,7 +269,7 @@ def update_user():
             'userId': request.form['userId'],
             'name': request.form['name'],
             'admin': admin,
-            'orderStatuses': orderStatuses
+            'orderStatuses': json.dumps(orderStatuses)
         }
 
         # Update the database with the changes
