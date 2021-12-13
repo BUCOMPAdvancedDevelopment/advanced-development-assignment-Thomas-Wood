@@ -255,7 +255,7 @@ def update_user():
     elif authContent['user_data']['admin'] == False:
         return "403 forbidden", 403
     else:
-        customer_id = request.form('userId')
+        customer_id = request.form['userId']
         print("Returned form...")
         print(request.form)
         return 'Page not created yet', 200
