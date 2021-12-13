@@ -76,7 +76,7 @@ def addToBasket():
         productId = request.form['id']
         qty = request.form['qty']
 
-        response = addToBasket(userId, productId, qty)
+        response = tools.addToBasket(userId, productId, qty)
 
         if response == 201:
             return "Success", 201
