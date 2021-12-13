@@ -45,10 +45,6 @@ Add qty check before adding to basket
 grey out product is non left in stock
 reduce qty after order is submitted
 
-Login page text says plz login when already logged in
-
-Admin delete users
-
 Better submission pages
 
 Add more unit tests

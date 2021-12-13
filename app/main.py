@@ -72,7 +72,7 @@ def addToBasket():
 
     # If not authenticated
     if authContent['user_data'] == None:
-        return "Token expired", 403
+        return redirect(url_for('login'))
     else:
         productId = request.form['id']
         qty = request.form['qty']
@@ -96,7 +96,7 @@ def removeFromBasket():
 
     # If not authenticated
     if authContent['user_data'] == None:
-        return "Token expired", 403
+        return redirect(url_for('login'))
     else:
         basketIndex = request.form['basketIndex']
         userId = authContent['user_data']['userId']
@@ -118,7 +118,7 @@ def viewOrders():
 
     # If not authenticated
     if authContent['user_data'] == None:
-        return "Token expired", 403
+        return redirect(url_for('login'))
     else:
         userId = authContent['user_data']['userId']
 
@@ -132,7 +132,7 @@ def createOrder():
 
     # If not authenticated
     if authContent['user_data'] == None:
-        return "Token expired", 403
+        return redirect(url_for('login'))
     else:
         userId = authContent['user_data']['userId']
 
@@ -146,7 +146,7 @@ def submitOrder():
 
     # If not authenticated
     if authContent['user_data'] == None:
-        return "Token expired", 403
+        return redirect(url_for('login'))
     else:
         runningTotal = 0
         for item in authContent['user_data']['basket']:
@@ -181,7 +181,10 @@ def update_product():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     elif authContent['user_data']['admin'] == False:
-        return "403 forbidden", 403
+        return render_template('message.html',
+                               message_title='Unauthorised',
+                               message_body='Your account does not have the permissions required to access this page',
+                               user_data=authContent['user_data']), 403
     else:
         product_id = request.args.get('id')
 
@@ -210,7 +213,10 @@ def admin():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     elif authContent['user_data']['admin'] == False:
-        return "403 forbidden", 403
+        return render_template('message.html',
+                               message_title='Unauthorised',
+                               message_body='Your account does not have the permissions required to access this page',
+                               user_data=authContent['user_data']), 403
     else:
         # Get product text data
         url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/read_mongodb_products"
@@ -236,7 +242,10 @@ def edit_user():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     elif authContent['user_data']['admin'] == False:
-        return "403 forbidden", 403
+        return render_template('message.html',
+                               message_title='Unauthorised',
+                               message_body='Your account does not have the permissions required to access this page',
+                               user_data=authContent['user_data']), 403
     else:
         customer_id = request.args.get('id')
         customer_data = tools.getUserData(customer_id)
@@ -253,7 +262,10 @@ def delete_user():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     elif authContent['user_data']['admin'] == False:
-        return "403 forbidden", 403
+        return render_template('message.html',
+                               message_title='Unauthorised',
+                               message_body='Your account does not have the permissions required to access this page',
+                               user_data=authContent['user_data']), 403
     else:
         params = {
             'userId': request.args.get('id')
@@ -264,7 +276,10 @@ def delete_user():
         response = requests.post(
             url, params)
 
-        return 'Page not created', 200
+        return render_template('message.html',
+                               message_title='User Deleted',
+                               message_body='The user account has been deleted',
+                               user_data=authContent['user_data'])
 
 
 @app.route('/update_user_submitted', methods=['POST'])
@@ -275,7 +290,10 @@ def update_user():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     elif authContent['user_data']['admin'] == False:
-        return "403 forbidden", 403
+        return render_template('message.html',
+                               message_title='Unauthorised',
+                               message_body='Your account does not have the permissions required to access this page',
+                               user_data=authContent['user_data']), 403
     else:
         if request.form['admin'] == 'on':
             admin = True
@@ -299,7 +317,10 @@ def update_user():
         response = requests.post(
             url, params)
 
-        return 'Page not created yet', 200
+        return render_template('message.html',
+                               message_title='User Updated',
+                               message_body='The user account has been updated',
+                               user_data=authContent['user_data'])
 
 
 @app.route('/create_product_submitted', methods=['POST'])
@@ -310,7 +331,10 @@ def create_product_submitted_form():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     elif authContent['user_data']['admin'] == False:
-        return "403 forbidden", 403
+        return render_template('message.html',
+                               message_title='Unauthorised',
+                               message_body='Your account does not have the permissions required to access this page',
+                               user_data=authContent['user_data']), 403
     else:
 
         imageID = str(uuid.uuid4())
@@ -325,7 +349,6 @@ def create_product_submitted_form():
             "tags": request.form['tags']
         }
         mongoUrl = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/create_mongodb_product"
-        # TODO Change this and related Google function to use post not get
         mongoResponse = requests.get(mongoUrl, params)
 
         # Upload the image to Google Cloud Storage
@@ -360,7 +383,10 @@ def update_product_submitted():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     elif authContent['user_data']['admin'] == False:
-        return "403 forbidden", 403
+        return render_template('message.html',
+                               message_title='Unauthorised',
+                               message_body='Your account does not have the permissions required to access this page',
+                               user_data=authContent['user_data']), 403
     else:
         serverResponse = ""
 
@@ -414,17 +440,10 @@ def update_product_submitted():
 
             serverResponse += " and old image deleted"
 
-        return render_template(
-            'submitted_form.html',
-            title=params['title'],
-            description=params['description'],
-            pricePerUnit=params['pricePerUnit'],
-            qty=params['qty'],
-            tags=params['tags'],
-            user_data=authContent['user_data'],
-            error_message=authContent['error_message'],
-            response=serverResponse
-        )
+        return render_template('message.html',
+                               message_title='Product updated',
+                               message_body='The product details have been updated',
+                               user_data=authContent['user_data'])
 
 
 @app.route('/delete_product_submitted', methods=['POST'])
@@ -435,7 +454,10 @@ def delete_product_submitted_form():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     elif authContent['user_data']['admin'] == False:
-        return "403 forbidden", 403
+        return render_template('message.html',
+                               message_title='Unauthorised',
+                               message_body='Your account does not have the permissions required to access this page',
+                               user_data=authContent['user_data']), 403
     else:
         params = {
             "id": str(request.form['id'])
@@ -459,13 +481,10 @@ def delete_product_submitted_form():
             googleUrl, googleParams)
         print("Delete image response: " + str(googleResponse.content))
 
-        # TODO Make delete html page
-        return render_template(
-            'submitted_form.html',
-            user_data=authContent['user_data'],
-            error_message=authContent['error_message'],
-            response=response.content.decode("utf-8")
-        )
+        return render_template('message.html',
+                               message_title='Product Deleted',
+                               message_body='The product has been deleted',
+                               user_data=authContent['user_data'])
 
 
 @app.errorhandler(500)

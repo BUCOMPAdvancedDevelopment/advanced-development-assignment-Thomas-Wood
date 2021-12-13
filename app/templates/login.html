@@ -10,21 +10,20 @@
 <div id="firebaseui-auth-container"></div>
 
 <!-- The hidden tag is controlled from the script.js file -->
-<button id="sign-out" hidden=true>Sign Out</button>
 <div id="login-info" hidden=true>
-<h2>Login info:</h2>
     {% if user_data %}
         {% block authenticatedContent %}
-            <h3>You've been authenticated!</h3>
             <p>Here's some of the details we have on you:</p>
             <ul>
                 <li>Name: {{ user_data['name'] }}</li>
                 <li>Email: {{ user_data['email'] }}</li>
             </ul>
+            <button id="sign-out" class="btn btn-info" hidden=true>Sign Out</button>
         {% endblock %}
     {% elif error_message %}
         {% block unauthenticatedContent %}
             <p>Error: {{ error_message }}</p>
+            <button id="sign-out" class="btn btn-info" hidden=true>Login</button>
         {% endblock %}
     {% endif %}
 </div>
