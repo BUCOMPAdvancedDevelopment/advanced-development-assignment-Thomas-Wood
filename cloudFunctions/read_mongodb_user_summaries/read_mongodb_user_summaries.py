@@ -22,9 +22,7 @@ def read_mongodb_user_summaries(request):
         'userId': 1,
         'email': 1,
         'name': 1,
-        'admin': 1,
-        'orders': 0,
-        'basket': 0
+        'admin': 1
     }
 
     myCursor = db.find({}, requestedData)

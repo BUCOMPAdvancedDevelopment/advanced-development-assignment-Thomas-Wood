@@ -217,9 +217,33 @@ def admin():
         response = requests.get(url)
         product_info = json.loads(response.content.decode("utf-8"))
 
+        # Get customer account information
+        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/read_mongodb_user_summaries"
+        response = requests.get(url)
+        customer_data = json.loads(response.content.decode("utf-8"))
+        print("Customer data looks like...")
+        print(customer_data)
+
         return render_template('admin.html',
                                product_info=product_info,
+                               customer_data=customer_data,
                                user_data=authContent['user_data'])
+
+
+@app.route('/edit_user', methods=['GET'])
+def edit_user():
+    authContent = tools.authenticateUser(request.cookies.get("token"))
+
+    # If not authenticated
+    if authContent['user_data'] == None:
+        return redirect(url_for('login'))
+    elif authContent['user_data']['admin'] == False:
+        return "403 forbidden", 403
+    else:
+        user_id = request.args.get('id')
+        user_data = tools.getUserData(user_id)
+        print(user_data)
+        return ('Page not created yet for user ' + str(user_id)), 200
 
 
 @app.route('/create_product_submitted', methods=['POST'])
