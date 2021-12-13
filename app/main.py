@@ -1,7 +1,6 @@
 import base64
 from datetime import datetime, timedelta
 import logging
-import requests
 import json
 from flask import Flask, render_template, request, url_for, redirect
 import tools
@@ -13,6 +12,12 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/home', methods=['GET'])
 def home():
+    """The main landing page of the site.
+    It contains a list of all the products available, each with an 'Add to basket' button.
+    If you're an Admin, you also have a 'edit' button to edit the product.
+    Account: Not required
+    Admin: Not required
+    """
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
     product_info = tools.formatProductData(
@@ -25,6 +30,10 @@ def home():
 
 @app.route('/about', methods=['GET'])
 def about():
+    """The about page which contains some simple contact details
+    Account: Not required
+    Admin: Not required
+    """
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
     return render_template('about.html',
@@ -33,6 +42,12 @@ def about():
 
 @app.route('/login', methods=['GET'])
 def login():
+    """The login page for the site.
+    It uses firebase to authenticate the user (Google accounts only)
+    On the first login, a document in the database will be created for the user
+    Account: Not required
+    Admin: Not required
+    """
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
     return render_template(
@@ -43,6 +58,11 @@ def login():
 
 @app.route('/basket', methods=['GET'])
 def basket():
+    """This shows the items currently in the user's basket
+    Products can be removed from the basket
+    Account: Required
+    Admin: Not required
+    """
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
     # If not authenticated
@@ -66,6 +86,10 @@ def basket():
 
 @app.route('/add_to_basket', methods=['POST'])
 def addToBasket():
+    """A background post call to add a product to the user's basket.
+    Account: Required
+    Admin: Not required
+    """
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
     # If not authenticated
@@ -86,6 +110,10 @@ def addToBasket():
 
 @app.route('/remove_from_basket', methods=['POST'])
 def removeFromBasket():
+    """This removes a product from the basket and redirects the user back to their basket
+    Account: Required
+    Admin: Not required
+    """
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
     # If not authenticated
@@ -108,6 +136,10 @@ def removeFromBasket():
 
 @app.route('/orders', methods=['GET'])
 def viewOrders():
+    """This shows all orders an account has made
+    Account: Required
+    Admin: Not required
+    """
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
     # If not authenticated
@@ -120,6 +152,10 @@ def viewOrders():
 
 @app.route('/create_order', methods=['GET'])
 def createOrder():
+    """This page is where the user fills in their address for the order
+    Account: Required
+    Admin: Not required
+    """
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
     # If not authenticated
@@ -132,6 +168,10 @@ def createOrder():
 
 @app.route('/create_order', methods=['POST'])
 def submitOrder():
+    """This creates an order from the user's basket then redirects them to their order
+    Account: Required
+    Admin: Not required
+    """
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
     # If not authenticated
@@ -169,6 +209,10 @@ def submitOrder():
 
 @app.route('/update_product', methods=['GET'])
 def update_product():
+    """A page to edit details about an existing product. Only accessible by admins
+    Account: Required
+    Admin: Required
+    """
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
     # If not authenticated
@@ -198,6 +242,11 @@ def update_product():
 
 @app.route('/admin', methods=['GET'])
 def admin():
+    """The main admin page.
+    Has functionality to create and delete products and view, edit and delete users (and their order status)
+    Account: Required
+    Admin: Required
+    """
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
     # If not authenticated
@@ -220,6 +269,10 @@ def admin():
 
 @app.route('/edit_user', methods=['GET'])
 def edit_user():
+    """A page to edit details in a user account (and their orders)
+    Account: Required
+    Admin: Required
+    """
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
     # If not authenticated
@@ -240,6 +293,10 @@ def edit_user():
 
 @app.route('/delete_user', methods=['GET'])
 def delete_user():
+    """This deletes a user and redirects the admin to a confirmation page
+    Account: Required
+    Admin: Required
+    """
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
     # If not authenticated
@@ -267,6 +324,10 @@ def delete_user():
 
 @app.route('/update_user_submitted', methods=['POST'])
 def update_user():
+    """This updates a user's details then redirects the admin to a confirmation page
+    Account: Required
+    Admin: Required
+    """
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
     # If not authenticated
@@ -311,6 +372,10 @@ def update_user():
 
 @app.route('/create_product_submitted', methods=['POST'])
 def create_product_submitted_form():
+    """This creates a new product then redirects the admin to a confirmation page
+    Account: Required
+    Admin: Required
+    """
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
     # If not authenticated
@@ -362,6 +427,10 @@ def create_product_submitted_form():
 
 @app.route('/update_product_submitted', methods=['POST'])
 def update_product_submitted():
+    """This updates details about an existing product. Only accessible by admins
+    Account: Required
+    Admin: Required
+    """
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
     # If not authenticated
@@ -418,6 +487,10 @@ def update_product_submitted():
 
 @app.route('/delete_product_submitted', methods=['POST'])
 def delete_product_submitted_form():
+    """This deletes an existing product. Only accessible by admins
+    Account: Required
+    Admin: Required
+    """
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
     # If not authenticated

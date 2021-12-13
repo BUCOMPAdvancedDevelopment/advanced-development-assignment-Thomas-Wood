@@ -41,10 +41,7 @@ To run the tests (from the root directory)
 
 # TODO
 
-Add more unit tests
+Add more unit tests (for main.py and tools.py)
 PEP8 check
 Comment functions
-
-break out similar functions
-
 Update databaseDetails folder with current data
