@@ -83,6 +83,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">Admin?</th>
                 <th scope="col">Edit</th>
+                <th scope='col'>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -92,6 +93,7 @@
                     <td>{{customer.name}}</td>
                     <td>{{customer.admin}}</td>
                     <td><a href="/edit_user?id={{customer.userId}}" class="btn btn-success">Edit User</a></td>
+                    <td><a href="/delete_user?id={{customer.userId}}" class="btn btn-danger">Delete User</a></td>
                 </tr>
             {% endfor %}
         </tbody>

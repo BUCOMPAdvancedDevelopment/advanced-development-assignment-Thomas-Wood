@@ -47,11 +47,7 @@ reduce qty after order is submitted
 
 Login page text says plz login when already logged in
 
-Add orders
-
-- order editing
-
-Admin edit and delete users
+Admin delete users
 
 Better submission pages
 

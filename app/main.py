@@ -245,6 +245,28 @@ def edit_user():
                                user_data=authContent['user_data'])
 
 
+@app.route('/delete_user', methods=['GET'])
+def delete_user():
+    authContent = tools.authenticateUser(request.cookies.get("token"))
+
+    # If not authenticated
+    if authContent['user_data'] == None:
+        return redirect(url_for('login'))
+    elif authContent['user_data']['admin'] == False:
+        return "403 forbidden", 403
+    else:
+        params = {
+            'userId': request.args.get('id')
+        }
+
+        # Update the database with the changes
+        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/delete_mongodb_user"
+        response = requests.post(
+            url, params)
+
+        return 'Page not created', 200
+
+
 @app.route('/update_user_submitted', methods=['POST'])
 def update_user():
     authContent = tools.authenticateUser(request.cookies.get("token"))
