@@ -42,10 +42,8 @@ To run the tests (from the root directory)
 # TODO
 
 Add qty check before adding to basket
-grey out product is non left in stock
+grey out product if non left in stock
 reduce qty after order is submitted
-
-Better submission pages
 
 Add more unit tests
 PEP8 check

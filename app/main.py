@@ -15,10 +15,9 @@ app = Flask(__name__)
 def home():
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
-    url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/read_mongodb_products"
-    response = requests.get(url)
     product_info = tools.formatProductData(
-        json.loads(response.content.decode("utf-8")))
+        tools.getProduct())
+
     return render_template('home.html',
                            product_info=product_info,
                            user_data=authContent['user_data'])
@@ -36,7 +35,6 @@ def about():
 def login():
     authContent = tools.authenticateUser(request.cookies.get("token"))
 
-    # Return your page with any retrieved data (or return different pages if not logged in)
     return render_template(
         'login.html',
         user_data=authContent['user_data'],
@@ -74,20 +72,16 @@ def addToBasket():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     else:
+        userId = authContent['user_data']['userId']
         productId = request.form['id']
         qty = request.form['qty']
-        userId = authContent['user_data']['userId']
 
-        googleUrl = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/add_mongodb_user_basket"
-        googleParams = {
-            "userId": userId,
-            "productId": productId,
-            "qty": qty
-        }
-        googleResponse = requests.post(
-            googleUrl, googleParams)
+        response = addToBasket(userId, productId, qty)
 
-        return "Success", 201
+        if response == 201:
+            return "Success", 201
+        else:
+            return "Something went wrong", 500
 
 
 @app.route('/remove_from_basket', methods=['POST'])
@@ -98,18 +92,18 @@ def removeFromBasket():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     else:
-        basketIndex = request.form['basketIndex']
         userId = authContent['user_data']['userId']
+        basketIndex = request.form['basketIndex']
 
-        googleUrl = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/remove_mongodb_user_basket"
-        googleParams = {
-            "userId": userId,
-            "basketIndex": basketIndex
-        }
-        googleResponse = requests.post(
-            googleUrl, googleParams)
+        response = tools.removeFromBasket(userId, basketIndex)
 
-        return redirect(url_for('basket'))
+        if response == 201:
+            return redirect(url_for('basket'))
+        else:
+            return render_template('message.html',
+                                   message_title='Something went wrong',
+                                   message_body="We're not sure what went wrong, but we're looking into it. Try again in a few mins",
+                                   user_data=authContent['user_data']), 500
 
 
 @app.route('/orders', methods=['GET'])
@@ -120,8 +114,6 @@ def viewOrders():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     else:
-        userId = authContent['user_data']['userId']
-
         return render_template('orders.html',
                                user_data=authContent['user_data'])
 
@@ -134,8 +126,6 @@ def createOrder():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     else:
-        userId = authContent['user_data']['userId']
-
         return render_template('create_order.html',
                                user_data=authContent['user_data'])
 
@@ -166,11 +156,15 @@ def submitOrder():
         }
 
         # Send to google function to create order and empty basket
-        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/add_mongodb_user_order"
-        response = requests.post(url, orderDetails)
-        print(response)
+        response = tools.createOrder(orderDetails)
 
-        return redirect(url_for('viewOrders'))
+        if response == 201:
+            return redirect(url_for('viewOrders'))
+        else:
+            return render_template('message.html',
+                                   message_title='Something went wrong',
+                                   message_body="We're not sure what went wrong, but we're looking into it. Try again in a few mins",
+                                   user_data=authContent['user_data']), 500
 
 
 @app.route('/update_product', methods=['GET'])
@@ -188,10 +182,7 @@ def update_product():
     else:
         product_id = request.args.get('id')
 
-        # Get product text data
-        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/read_mongodb_products"
-        response = requests.get(url, {'id': product_id})
-        product_info = json.loads(response.content.decode("utf-8"))
+        product_info = tools.getProduct(product_id)
 
         # Change the tag list into a string for formatting
         formattedTags = ""
@@ -218,15 +209,8 @@ def admin():
                                message_body='Your account does not have the permissions required to access this page',
                                user_data=authContent['user_data']), 403
     else:
-        # Get product text data
-        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/read_mongodb_products"
-        response = requests.get(url)
-        product_info = json.loads(response.content.decode("utf-8"))
-
-        # Get customer account information
-        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/read_mongodb_user_summaries"
-        response = requests.get(url)
-        customer_data = json.loads(response.content.decode("utf-8"))
+        product_info = tools.getProduct()
+        customer_data = tools.getUserSummaries()
 
         return render_template('admin.html',
                                product_info=product_info,
@@ -267,19 +251,18 @@ def delete_user():
                                message_body='Your account does not have the permissions required to access this page',
                                user_data=authContent['user_data']), 403
     else:
-        params = {
-            'userId': request.args.get('id')
-        }
+        response = tools.deleteUser(request.args.get('id'))
 
-        # Update the database with the changes
-        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/delete_mongodb_user"
-        response = requests.post(
-            url, params)
-
-        return render_template('message.html',
-                               message_title='User Deleted',
-                               message_body='The user account has been deleted',
-                               user_data=authContent['user_data'])
+        if response == 200:
+            return render_template('message.html',
+                                   message_title='User Deleted',
+                                   message_body='The user account has been deleted',
+                                   user_data=authContent['user_data'])
+        else:
+            return render_template('message.html',
+                                   message_title='Something went wrong',
+                                   message_body="We're looking into the problem, try again in a few mins",
+                                   user_data=authContent['user_data'])
 
 
 @app.route('/update_user_submitted', methods=['POST'])
@@ -312,15 +295,18 @@ def update_user():
             'orderStatuses': json.dumps(orderStatuses)
         }
 
-        # Update the database with the changes
-        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/update_mongodb_user"
-        response = requests.post(
-            url, params)
+        response = tools.updateUser(params)
 
-        return render_template('message.html',
-                               message_title='User Updated',
-                               message_body='The user account has been updated',
-                               user_data=authContent['user_data'])
+        if response == 200:
+            return render_template('message.html',
+                                   message_title='User Updated',
+                                   message_body='The user account has been updated',
+                                   user_data=authContent['user_data'])
+        else:
+            return render_template('message.html',
+                                   message_title='Something went wrong',
+                                   message_body="We're looking into the problem, try again in a few mins",
+                                   user_data=authContent['user_data'])
 
 
 @app.route('/create_product_submitted', methods=['POST'])
@@ -348,31 +334,30 @@ def create_product_submitted_form():
             "imageID": imageID,
             "tags": request.form['tags']
         }
-        mongoUrl = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/create_mongodb_product"
-        mongoResponse = requests.get(mongoUrl, params)
+        mongoResponse = tools.createProduct(params)
 
         # Upload the image to Google Cloud Storage
         base64Image = base64.b64encode(request.files['image'].read())
-        googleUrl = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/upload_cloud_storage_image"
-        googleParams = {
-            "id": imageID,
-            "image": base64Image
-        }
-        googleResponse = requests.post(
-            googleUrl, googleParams)
+        googleResponse = tools.uploadImage(imageID, base64Image)
 
-        return render_template(
-            'submitted_form.html',
-            title=params['title'],
-            description=params['description'],
-            pricePerUnit=params['pricePerUnit'],
-            qty=params['qty'],
-            imageID=params['imageID'],
-            tags=params['tags'],
-            user_data=authContent['user_data'],
-            error_message=authContent['error_message'],
-            response="Successfully added to databases!"
-        )
+        if mongoResponse == 200 and googleResponse == 200:
+            return render_template(
+                'submitted_form.html',
+                title=params['title'],
+                description=params['description'],
+                pricePerUnit=params['pricePerUnit'],
+                qty=params['qty'],
+                imageID=params['imageID'],
+                tags=params['tags'],
+                user_data=authContent['user_data'],
+                error_message=authContent['error_message'],
+                response="Successfully added to databases!"
+            )
+        else:
+            return render_template('message.html',
+                                   message_title='Something went wrong',
+                                   message_body="We're looking into the problem, try again in a few mins",
+                                   user_data=authContent['user_data'])
 
 
 @app.route('/update_product_submitted', methods=['POST'])
@@ -388,13 +373,8 @@ def update_product_submitted():
                                message_body='Your account does not have the permissions required to access this page',
                                user_data=authContent['user_data']), 403
     else:
-        serverResponse = ""
-
         # Get product imageID data
-        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/read_mongodb_products"
-        response = requests.get(url, {'id': request.form['id']})
-        oldImageID = json.loads(response.content.decode("utf-8"))['imageID']
-
+        oldImageID = tools.getProduct(request.form['id'])['imageID']
         newImageID = str(uuid.uuid4())
 
         # Update MongoDB
@@ -407,43 +387,30 @@ def update_product_submitted():
             "imageID": newImageID,
             "tags": request.form['tags']
         }
-        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/update_mongodb_product"
-        response = requests.get(url, params)
+        mongoResponse = tools.updateProduct(params)
 
-        serverResponse += "Text Updated"
+        # Update image in cloud storage if one was uploaded
+        if request.files['image'].filename != '':
 
-        # Update image in cloud storage
-        if request.files['image'].filename == '':
-            serverResponse += " and image not updated"
-        else:
-            # Add new image
+            # Upload new image
             base64Image = base64.b64encode(request.files['image'].read())
-            googleUrl = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/upload_cloud_storage_image"
-            googleParams = {
-                "id": newImageID,
-                "image": base64Image
-            }
-            googleResponse = requests.post(
-                googleUrl, googleParams)
-            print("Add image response: " + str(googleResponse.content))
-
-            serverResponse += " and image updated"
+            googleUploadResponse = tools.uploadImage(newImageID, base64Image)
 
             # Remove old image
-            googleUrl = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/delete_cloud_storage_image"
-            googleParams = {
-                "id": oldImageID
-            }
-            googleResponse = requests.post(
-                googleUrl, googleParams)
-            print("Delete image response: " + str(googleResponse.content))
+            googleRemoveResponse = tools.deleteImage(oldImageID)
 
-            serverResponse += " and old image deleted"
-
-        return render_template('message.html',
-                               message_title='Product updated',
-                               message_body='The product details have been updated',
-                               user_data=authContent['user_data'])
+        if (mongoResponse == 200 and
+                (googleUploadResponse == 200 or googleUploadResponse == None) and
+                (googleRemoveResponse == 200 or googleRemoveResponse == None)):
+            return render_template('message.html',
+                                   message_title='Product updated',
+                                   message_body='The product details have been updated',
+                                   user_data=authContent['user_data'])
+        else:
+            return render_template('message.html',
+                                   message_title='Something went wrong',
+                                   message_body="We're looking into the problem, try again in a few mins",
+                                   user_data=authContent['user_data'])
 
 
 @app.route('/delete_product_submitted', methods=['POST'])
@@ -459,32 +426,25 @@ def delete_product_submitted_form():
                                message_body='Your account does not have the permissions required to access this page',
                                user_data=authContent['user_data']), 403
     else:
-        params = {
-            "id": str(request.form['id'])
-        }
-
         # Get product imageID data
-        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/read_mongodb_products"
-        response = requests.get(url, params)
-        imageID = json.loads(response.content.decode("utf-8"))['imageID']
+        imageID = tools.getProduct(request.form['id'])['imageID']
 
         # Remove Mongo object
-        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/delete_mongodb_product"
-        response = requests.get(url, params)
+        mongoResponse = tools.deleteProduct(request.form['id'])
 
         # Remove image
-        googleUrl = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/delete_cloud_storage_image"
-        googleParams = {
-            "id": str(imageID)
-        }
-        googleResponse = requests.post(
-            googleUrl, googleParams)
-        print("Delete image response: " + str(googleResponse.content))
+        googleResponse = tools.deleteImage(imageID)
 
-        return render_template('message.html',
-                               message_title='Product Deleted',
-                               message_body='The product has been deleted',
-                               user_data=authContent['user_data'])
+        if mongoResponse == 200 and googleResponse == 200:
+            return render_template('message.html',
+                                   message_title='Product Deleted',
+                                   message_body='The product has been deleted',
+                                   user_data=authContent['user_data'])
+        else:
+            return render_template('message.html',
+                                   message_title='Something went wrong',
+                                   message_body="We're looking into the problem, try again in a few mins",
+                                   user_data=authContent['user_data'])
 
 
 @app.errorhandler(500)
