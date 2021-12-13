@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>Login using Google below</h1>
+<h1>Profile</h1>
 
 <p>If you haven't logged in with us before, we will create an account for you when you login.</p>
 
@@ -10,6 +10,7 @@
 <div id="firebaseui-auth-container"></div>
 
 <!-- The hidden tag is controlled from the script.js file -->
+<button id="sign-out" hidden=true>Sign Out</button>
 <div id="login-info" hidden=true>
     {% if user_data %}
         {% block authenticatedContent %}
@@ -18,12 +19,10 @@
                 <li>Name: {{ user_data['name'] }}</li>
                 <li>Email: {{ user_data['email'] }}</li>
             </ul>
-            <button id="sign-out" class="btn btn-info" hidden=true>Sign Out</button>
         {% endblock %}
     {% elif error_message %}
         {% block unauthenticatedContent %}
             <p>Error: {{ error_message }}</p>
-            <button id="sign-out" class="btn btn-info" hidden=true>Login</button>
         {% endblock %}
     {% endif %}
 </div>
