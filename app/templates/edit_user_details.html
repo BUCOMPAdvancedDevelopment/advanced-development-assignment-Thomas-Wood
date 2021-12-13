@@ -7,7 +7,7 @@
 </div>
 
 <div>
-    <form method="post" action="{{ url_for('update_user_submitted') }}" enctype="multipart/form-data">
+    <form method="post" action="{{ url_for('update_user') }}" enctype="multipart/form-data">
         <div class="form-group">
             <label for="userId">ID</label>
             <input type="text" name="userId" class="form-control" value="{{customer_data.userId}}" readonly>
