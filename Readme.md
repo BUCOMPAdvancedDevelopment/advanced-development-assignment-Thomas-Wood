@@ -41,10 +41,6 @@ To run the tests (from the root directory)
 
 # TODO
 
-Add qty check before adding to basket
-grey out product if non left in stock
-reduce qty after order is submitted
-
 Add more unit tests
 PEP8 check
 Comment functions

@@ -377,6 +377,9 @@ def update_product_submitted():
         oldImageID = tools.getProduct(request.form['id'])['imageID']
         newImageID = str(uuid.uuid4())
 
+        googleUploadResponse = None
+        googleRemoveResponse = None
+
         # Update MongoDB
         params = {
             "id": str(request.form['id']),
