@@ -255,9 +255,28 @@ def update_user():
     elif authContent['user_data']['admin'] == False:
         return "403 forbidden", 403
     else:
-        customer_id = request.form['userId']
-        print("Returned form...")
-        print(request.form)
+        if request.form['admin'] == 'on':
+            admin = True
+        else:
+            admin = False
+
+        orderStatuses = []
+        for key in request.form.keys():
+            if "orderStatusIndex" in key:
+                orderStatuses.append(request.form[key])
+
+        params = {
+            'userId': request.form['userId'],
+            'name': request.form['name'],
+            'admin': admin,
+            'orderStatuses': orderStatuses
+        }
+
+        # Update the database with the changes
+        url = "https://europe-west2-synthetic-cargo-328708.cloudfunctions.net/update_mongodb_user"
+        response = requests.post(
+            url, params)
+
         return 'Page not created yet', 200
 
 
