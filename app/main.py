@@ -219,10 +219,7 @@ def update_product():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     elif authContent['user_data']['admin'] == False:
-        return render_template('message.html',
-                               message_title='Unauthorised',
-                               message_body='Your account does not have the permissions required to access this page',
-                               user_data=authContent['user_data']), 403
+        return unauthorised(authContent)
     else:
         product_id = request.args.get('id')
 
@@ -253,10 +250,7 @@ def admin():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     elif authContent['user_data']['admin'] == False:
-        return render_template('message.html',
-                               message_title='Unauthorised',
-                               message_body='Your account does not have the permissions required to access this page',
-                               user_data=authContent['user_data']), 403
+        return unauthorised(authContent)
     else:
         product_info = tools.getProduct()
         customer_data = tools.getUserSummaries()
@@ -279,10 +273,7 @@ def edit_user():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     elif authContent['user_data']['admin'] == False:
-        return render_template('message.html',
-                               message_title='Unauthorised',
-                               message_body='Your account does not have the permissions required to access this page',
-                               user_data=authContent['user_data']), 403
+        return unauthorised(authContent)
     else:
         customer_id = request.args.get('id')
         customer_data = tools.getUserData(customer_id)
@@ -303,10 +294,7 @@ def delete_user():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     elif authContent['user_data']['admin'] == False:
-        return render_template('message.html',
-                               message_title='Unauthorised',
-                               message_body='Your account does not have the permissions required to access this page',
-                               user_data=authContent['user_data']), 403
+        return unauthorised(authContent)
     else:
         response = tools.deleteUser(request.args.get('id'))
 
@@ -334,10 +322,7 @@ def update_user():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     elif authContent['user_data']['admin'] == False:
-        return render_template('message.html',
-                               message_title='Unauthorised',
-                               message_body='Your account does not have the permissions required to access this page',
-                               user_data=authContent['user_data']), 403
+        return unauthorised(authContent)
     else:
         if request.form['admin'] == 'on':
             admin = True
@@ -438,10 +423,7 @@ def create_product_submitted_form():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     elif authContent['user_data']['admin'] == False:
-        return render_template('message.html',
-                               message_title='Unauthorised',
-                               message_body='Your account does not have the permissions required to access this page',
-                               user_data=authContent['user_data']), 403
+        return unauthorised(authContent)
     else:
 
         imageID = str(uuid.uuid4())
@@ -493,10 +475,7 @@ def update_product_submitted():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     elif authContent['user_data']['admin'] == False:
-        return render_template('message.html',
-                               message_title='Unauthorised',
-                               message_body='Your account does not have the permissions required to access this page',
-                               user_data=authContent['user_data']), 403
+        return unauthorised(authContent)
     else:
         # Get product imageID data
         oldImageID = tools.getProduct(request.form['id'])['imageID']
@@ -553,10 +532,7 @@ def delete_product_submitted_form():
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
     elif authContent['user_data']['admin'] == False:
-        return render_template('message.html',
-                               message_title='Unauthorised',
-                               message_body='Your account does not have the permissions required to access this page',
-                               user_data=authContent['user_data']), 403
+        return unauthorised(authContent)
     else:
         # Get product imageID data
         imageID = tools.getProduct(request.form['id'])['imageID']
@@ -588,6 +564,13 @@ def server_error(error):
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html'), 404
+
+
+def unauthorised(authContent):
+    render_template('message.html',
+                    message_title='Unauthorised',
+                    message_body='Your account does not have the permissions required to access this page',
+                    user_data=authContent['user_data']), 403
 
 
 if __name__ == '__main__':
