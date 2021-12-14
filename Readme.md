@@ -39,13 +39,19 @@ To run the tests (from the root directory)
 
 `python -m unittest discover -s tests`
 
-# TODO
+# Troubleshooting import errors
 
-Customer must be able to update their existing orders
-View more product information
+Imports in a file under test don't always work well in Python, you may need to add the absolute path of the app folder into your Python set up folder:
+Add a .pth file with the absolute path in it to here C:\Python39\Lib\site-packages
+This helps unittest to discover the packages. The imports will work correctly as normal without this when starting the flask app.
+
+# TODO
 
 Add more unit tests (for main.py and tools.py)
 PEP8 check
 Update databaseDetails folder with current data
-Final brief check
-Video - Brief includes retrospective stuff
+
+- And correct malformed tags in DB
+
+  Final brief check
+  Video - Brief includes retrospective stuff

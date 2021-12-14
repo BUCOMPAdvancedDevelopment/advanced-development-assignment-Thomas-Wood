@@ -1,7 +1,6 @@
 import unittest
 from unittest import mock
 from types import SimpleNamespace
-
 from app import main
 
 
