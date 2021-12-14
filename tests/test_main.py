@@ -134,6 +134,20 @@ class TestHTTPMethods(unittest.TestCase):
                       str(response.data))
         self.assertEqual(response.status_code, 302)
 
+    @mock.patch('tools.authenticateUser', unauthenticatedUserHelper)
+    def test_orders_not_logged_in(self):
+        response = self.app.get('/orders')
+        self.assertIn('You should be redirected automatically to target URL: <a href="/login">/login</a>',
+                      str(response.data))
+        self.assertEqual(response.status_code, 302)
+
+    @mock.patch('tools.authenticateUser', authenticatedUserHelper)
+    def test_orders_logged_in(self):
+        response = self.app.get('/orders')
+        self.assertIn('2021-12-13',  # Timestamp of the order saved on the user
+                      str(response.data))
+        self.assertEqual(response.status_code, 200)
+
     def test_404(self):
         response = self.app.get('/notavalidroute')
         self.assertIn('The requested URL was not found on the server',
