@@ -56,6 +56,19 @@ class TestHTTPMethods(unittest.TestCase):
     def removeFromBasketHelper(userId, basketIndex):
         return 201
 
+    def getProductHelper(productId):
+        return {
+            'title': 'Simple Product Name',
+            'description': 'Simple Description',
+            'pricePerUnit': '10.00',
+            'qty': '5',
+            'imageID': '555',
+            'tags': ['small', 'metal']
+        }
+
+    def createOrderHelper(orderDetails):
+        return 201
+
     def test_root(self):
         response = self.app.get('/')
         self.assertIn("<h1>Welcome to BTEC Furniture </h1>",
@@ -161,6 +174,30 @@ class TestHTTPMethods(unittest.TestCase):
         self.assertIn('<button type="submit" class="btn btn-success">Submit Order</button>',
                       str(response.data))
         self.assertEqual(response.status_code, 200)
+
+    @mock.patch('tools.createOrder', createOrderHelper)
+    @mock.patch('tools.getProduct', getProductHelper)
+    @mock.patch('tools.authenticateUser', unauthenticatedUserHelper)
+    def test_create_order_submission_not_logged_in(self):
+        response = self.app.post('/create_order', data=dict(
+            name='Mr 123',
+            address='Picket Lane',
+            paymentType='card'))
+        self.assertIn('You should be redirected automatically to target URL: <a href="/login">/login</a>',
+                      str(response.data))
+        self.assertEqual(response.status_code, 302)
+
+    @mock.patch('tools.createOrder', createOrderHelper)
+    @mock.patch('tools.getProduct', getProductHelper)
+    @mock.patch('tools.authenticateUser', authenticatedUserHelper)
+    def test_create_order_submission_logged_in(self):
+        response = self.app.post('/create_order', data=dict(
+            name='Mr 123',
+            address='Picket Lane',
+            paymentType='card'))
+        self.assertIn('You should be redirected automatically to target URL: <a href="/orders">/orders</a>',
+                      str(response.data))
+        self.assertEqual(response.status_code, 302)
 
     def test_404(self):
         response = self.app.get('/notavalidroute')
