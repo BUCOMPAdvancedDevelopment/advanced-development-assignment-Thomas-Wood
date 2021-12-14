@@ -1,6 +1,5 @@
 import unittest
 from unittest import mock
-from types import SimpleNamespace
 from app import main
 
 
@@ -56,21 +55,35 @@ class TestHTTPMethods(unittest.TestCase):
     def removeFromBasketHelper(userId, basketIndex):
         return 201
 
-    def getProductHelper(productId):
-        return {
-            '_id': {
-                '$oid': 'id'
-            },
-            'title': 'Simple Product Name',
-            'description': 'Simple Description',
-            'pricePerUnit': '10.00',
-            'qty': '5',
-            'imageID': '555',
-            'tags': ['small', 'metal']
-        }
+    def getProductHelper(productId=None):
+        if productId == None:  # Call for all products
+            return [TestHTTPMethods.getProductHelper(1),
+                    TestHTTPMethods.getProductHelper(1),
+                    TestHTTPMethods.getProductHelper(1)
+                    ]
+        else:  # Call for specific product
+            return {
+                '_id': {
+                    '$oid': 'id'
+                },
+                'title': 'Simple Product Name',
+                'description': 'Simple Description',
+                'pricePerUnit': '10.00',
+                'qty': '5',
+                'imageID': '555',
+                'tags': ['small', 'metal']
+            }
 
     def createOrderHelper(orderDetails):
         return 201
+
+    def getUserSummariesHelper():
+        return [{
+            'userId': '3FCEQ8ZzLjXsmQwv9Yc8Q4oYOfp1',
+            'email': '123@gmail.com',
+            'name': 'Mr 123',
+            'admin': 'False'
+        }]
 
     def test_root(self):
         response = self.app.get('/')
@@ -223,6 +236,33 @@ class TestHTTPMethods(unittest.TestCase):
     def test_update_product_admin(self):
         response = self.app.get('/update_product', query_string=dict(id='456'))
         self.assertIn('Current image (uploading a new image will replace this)',
+                      str(response.data))
+        self.assertEqual(response.status_code, 200)
+
+    @mock.patch('tools.getUserSummaries', getUserSummariesHelper)
+    @mock.patch('tools.getProduct', getProductHelper)
+    @mock.patch('tools.authenticateUser', unauthenticatedUserHelper)
+    def test_admin_not_logged_in(self):
+        response = self.app.get('/admin')
+        self.assertIn('You should be redirected automatically to target URL: <a href="/login">/login</a>',
+                      str(response.data))
+        self.assertEqual(response.status_code, 302)
+
+    @mock.patch('tools.getUserSummaries', getUserSummariesHelper)
+    @mock.patch('tools.getProduct', getProductHelper)
+    @mock.patch('tools.authenticateUser', authenticatedUserHelper)
+    def test_admin_logged_in(self):
+        response = self.app.get('/admin')
+        self.assertIn('Your account does not have the permissions required to access this page',
+                      str(response.data))
+        self.assertEqual(response.status_code, 403)
+
+    @mock.patch('tools.getUserSummaries', getUserSummariesHelper)
+    @mock.patch('tools.getProduct', getProductHelper)
+    @mock.patch('tools.authenticateUser', adminUserHelper)
+    def test_admin_admin(self):
+        response = self.app.get('/admin')
+        self.assertIn('Click each button to show the inputs for that functionality',
                       str(response.data))
         self.assertEqual(response.status_code, 200)
 
