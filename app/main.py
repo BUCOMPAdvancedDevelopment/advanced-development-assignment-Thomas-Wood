@@ -218,7 +218,7 @@ def update_product():
     # If not authenticated
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
-    elif authContent['user_data']['admin'] == False:
+    elif authContent['user_data']['admin'] == 'False':
         return unauthorised(authContent)
     else:
         product_id = request.args.get('id')
@@ -249,7 +249,7 @@ def admin():
     # If not authenticated
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
-    elif authContent['user_data']['admin'] == False:
+    elif authContent['user_data']['admin'] == 'False':
         return unauthorised(authContent)
     else:
         product_info = tools.getProduct()
@@ -272,7 +272,7 @@ def edit_user():
     # If not authenticated
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
-    elif authContent['user_data']['admin'] == False:
+    elif authContent['user_data']['admin'] == 'False':
         return unauthorised(authContent)
     else:
         customer_id = request.args.get('id')
@@ -293,7 +293,7 @@ def delete_user():
     # If not authenticated
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
-    elif authContent['user_data']['admin'] == False:
+    elif authContent['user_data']['admin'] == 'False':
         return unauthorised(authContent)
     else:
         response = tools.deleteUser(request.args.get('id'))
@@ -321,7 +321,7 @@ def update_user():
     # If not authenticated
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
-    elif authContent['user_data']['admin'] == False:
+    elif authContent['user_data']['admin'] == 'False':
         return unauthorised(authContent)
     else:
         if request.form['admin'] == 'on':
@@ -422,7 +422,7 @@ def create_product_submitted_form():
     # If not authenticated
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
-    elif authContent['user_data']['admin'] == False:
+    elif authContent['user_data']['admin'] == 'False':
         return unauthorised(authContent)
     else:
 
@@ -474,7 +474,7 @@ def update_product_submitted():
     # If not authenticated
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
-    elif authContent['user_data']['admin'] == False:
+    elif authContent['user_data']['admin'] == 'False':
         return unauthorised(authContent)
     else:
         # Get product imageID data
@@ -531,7 +531,7 @@ def delete_product_submitted_form():
     # If not authenticated
     if authContent['user_data'] == None:
         return redirect(url_for('login'))
-    elif authContent['user_data']['admin'] == False:
+    elif authContent['user_data']['admin'] == 'False':
         return unauthorised(authContent)
     else:
         # Get product imageID data
@@ -567,10 +567,10 @@ def page_not_found(error):
 
 
 def unauthorised(authContent):
-    render_template('message.html',
-                    message_title='Unauthorised',
-                    message_body='Your account does not have the permissions required to access this page',
-                    user_data=authContent['user_data']), 403
+    return render_template('message.html',
+                           message_title='Unauthorised',
+                           message_body='Your account does not have the permissions required to access this page',
+                           user_data=authContent['user_data']), 403
 
 
 if __name__ == '__main__':
