@@ -17,35 +17,35 @@
     "$oid": "619bb55c11dd33ac12d5aa0e"
   },
   "title": "Faux Leather Gaming Chair In Red",
-  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor aliquam nulla facilisi cras fermentum odio eu feugiat. Mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien et.",
+  "description": "The red leather effect gaming chair is will make anyone feel like a professional gamer!",
   "pricePerUnit": "149.99",
   "qty": "32",
   "imageID": "619bb55c11dd33ac12d5aa0e",
   "tags": [
-    "Chair",
-    "Medium",
-    "Gaming"
+    "chair",
+    "medium",
+    "gaming"
   ]
 },{
   "_id": {
     "$oid": "619bb55c11dd33ac12d5aa0f"
   },
   "title": "Grey Office Chair with Mesh Back",
-  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor aliquam nulla facilisi cras fermentum odio eu feugiat. Mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien et.",
+  "description": "This grey office chair has plenty of breathable fabric to make those long nights a bit more comfortable.",
   "pricePerUnit": "80.40",
-  "qty": 32,
+  "qty": "32",
   "imageID": "619bb55c11dd33ac12d5aa0f",
   "tags": [
-    "Chair",
-    "Medium",
-    "Office"
+    "chair",
+    "medium",
+    "office"
   ]
 },{
   "_id": {
     "$oid": "619bb55c11dd33ac12d5aa10"
   },
   "title": "Freestanding Pine Three Drawer Set",
-  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor aliquam nulla facilisi cras fermentum odio eu feugiat. Mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien et.",
+  "description": "A simple set of pine drawers made from renewable wood.",
   "pricePerUnit": "70.00",
   "qty": 32,
   "imageID": "619bb55c11dd33ac12d5aa10",
@@ -59,7 +59,7 @@
     "$oid": "619bb55c11dd33ac12d5aa11"
   },
   "title": "Colour Coded Desk Tidy",
-  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor aliquam nulla facilisi cras fermentum odio eu feugiat. Mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien et.",
+  "description": "This simple desk tidy will fit perfectly into any young creative minds room.",
   "pricePerUnit": "16.00",
   "qty": 32,
   "imageID": "619bb55c11dd33ac12d5aa11",
@@ -73,14 +73,14 @@
     "$oid": "619bb55c11dd33ac12d5aa12"
   },
   "title": "Premium Oak Dinning Table with Black Base",
-  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor aliquam nulla facilisi cras fermentum odio eu feugiat. Mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien et.",
+  "description": "This large dinning table will be the dominant centre piece in any dinning room. Perfect for large family gatherings, buffets, and Christmas meals.",
   "pricePerUnit": "405.00",
-  "qty": 32,
+  "qty": "7",
   "imageID": "619bb55c11dd33ac12d5aa12",
   "tags": [
-    "Dining",
-    "Large",
-    "Wood"
+    "dining",
+    "large",
+    "wood"
   ]
 },{
   "_id": {
@@ -88,14 +88,14 @@
   },
   "title": "Red Dresser",
   "description": "The elegant red dresser will fit any brightly coloured room!",
-  "pricePerUnit": "75.00",
-  "qty": 5,
+  "pricePerUnit": "76.00",
+  "qty": "6",
   "imageID": "61af7fb9f3546563bb951524",
   "tags": [
-    "Red",
-    "Wood",
-    "Dresser",
-    "Large"
+    "red",
+    "wood",
+    "dresser",
+    "large"
   ]
 },{
   "_id": {
@@ -126,5 +126,107 @@
     "Sofa",
     "Large",
     "Red"
+  ]
+},{
+  "_id": {
+    "$oid": "61b1de7a302b84da67930ae5"
+  },
+  "title": "Grey Desk",
+  "description": "This simple desk is the workhorse of the household. Simple yet robust, it will last many years.",
+  "pricePerUnit": "85.00",
+  "qty": "10",
+  "tags": [
+    "desk",
+    "medium",
+    "wood"
+  ],
+  "imageID": "350c7b8f-924d-4cf3-ad00-9f0d55bf4398"
+},{
+  "_id": {
+    "$oid": "61b1e059887399c67a8aa695"
+  },
+  "title": "Adjustable desk lamp",
+  "description": "This lamp with it's articulated neck and small base makes this ideal for smaller desks and people with a creative side in need of some extra light.",
+  "pricePerUnit": "25.99",
+  "qty": "30",
+  "imageID": "005498b6-c80f-4a5a-9648-61a959d34475",
+  "tags": [
+    "lamp",
+    "small",
+    "grey"
+  ]
+},{
+  "_id": {
+    "$oid": "61b2012b7ceac3ad6b3915de"
+  },
+  "title": "Simple Sofa",
+  "description": "This simple sofa fits into an minimalistic setting.",
+  "pricePerUnit": "90.00",
+  "qty": "4",
+  "imageID": "bb4c97ec-2657-4633-a277-c7d95a883609",
+  "tags": [
+    "sofa",
+    "large",
+    "fabric",
+    "grey"
+  ]
+},{
+  "_id": {
+    "$oid": "61b208d17e3496b3f63e646b"
+  },
+  "title": "White arm chair",
+  "description": "This stylish arm chair in white... is very stylish.",
+  "pricePerUnit": "55.00",
+  "qty": "16",
+  "imageID": "b227ae0d-5168-4676-91aa-4edbd42981a4",
+  "tags": [
+    "white",
+    "armchair",
+    "medium",
+    "wood"
+  ]
+},{
+  "_id": {
+    "$oid": "61b22cd2e9dd8c432311257b"
+  },
+  "title": "Pastel beanbag",
+  "description": "This light beanbag will be used many times in trendy offices!",
+  "pricePerUnit": "27.00",
+  "qty": "89",
+  "imageID": "8240a37e-90fc-4cc2-82f3-da247576b92e",
+  "tags": [
+    "beanbag",
+    "fabric",
+    "medium",
+    "pastel"
+  ]
+},{
+  "_id": {
+    "$oid": "61b74a4f5cfda9b7e637e6e5"
+  },
+  "title": "Simple Corner Desk",
+  "description": "This desk can turn an unloved corner of your room into a centre of production for high quality work!",
+  "pricePerUnit": "45.00",
+  "qty": 6,
+  "imageID": "a8f68b07-aa4d-41fc-acdd-7adbaead2a13",
+  "tags": [
+    "wood",
+    "desk",
+    "corner",
+    "large"
+  ]
+},{
+  "_id": {
+    "$oid": "61b7620a1d191862adfd43f8"
+  },
+  "title": "Square based shelf",
+  "description": "This shelf can hold everything you need for all parts of your life while keeping them separated and organised.",
+  "pricePerUnit": "88.00",
+  "qty": 2,
+  "imageID": "bf6103b2-c20e-4abd-8af2-7df97e757569",
+  "tags": [
+    "large",
+    "wood",
+    "shelf"
   ]
 }]

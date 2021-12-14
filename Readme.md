@@ -19,7 +19,9 @@ This folder contains the source code for functions stored and used in Google Clo
 
 ## databaseDetails
 
-This folder contains information on the set up of the databases including starting sample data.
+This folder contains information on the set up of the databases including starting sample data. Images have been left out in the interest of file size. All images stored in Google Cloud Storage are jpegs so you can access any image by going to:
+'https://storage.googleapis.com/synthetic-cargo-products/619bb55c11dd33ac12d5aa0f.jpg'
+The id can be swapped out for any id in Products.json -> imageId
 
 ## tests
 
@@ -46,14 +48,3 @@ To run the tests (from the root directory)
 Imports in a file under test don't always work well in Python, you may need to add the absolute path of the app folder into your Python set up folder:
 Add a .pth file with the absolute path in it to here C:\Python39\Lib\site-packages
 This helps unittest to discover the packages. The imports will work correctly as normal without this when starting the flask app.
-
-# TODO
-
-Add more unit tests (for main.py and tools.py)
-PEP8 check
-Update databaseDetails folder with current data
-
-- And correct malformed tags in DB
-
-  Final brief check
-  Video - Brief includes retrospective stuff
