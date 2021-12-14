@@ -36,7 +36,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for order in customer_data['orders'] %}
+                    {% for order in user_data['orders'] %}
                         <tr>
                             <td>{{order.timestamp[0:10]}}</td>
                             <td>{{order.name}}</td>
