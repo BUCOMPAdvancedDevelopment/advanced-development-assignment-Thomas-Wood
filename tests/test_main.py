@@ -53,6 +53,9 @@ class TestHTTPMethods(unittest.TestCase):
     def addToBasketHelper(userId, productId, qty):
         return 201
 
+    def removeFromBasketHelper(userId, basketIndex):
+        return 201
+
     def test_root(self):
         response = self.app.get('/')
         self.assertIn("<h1>Welcome to BTEC Furniture </h1>",
@@ -113,16 +116,23 @@ class TestHTTPMethods(unittest.TestCase):
         self.assertIn('Success', str(response.data))
         self.assertEqual(response.status_code, 201)
 
-    # @mock.patch('requests.get', lambda url, params: SimpleNamespace(content=201))
-    # def test_submitted(self):
-    #     response = self.app.post('/submitted', data=dict(
-    #         title='Test',
-    #         author='Test',
-    #         content='Test'
-    #     ))
-    #     self.assertIn('201',
-    #                   str(response.data))
-    #     self.assertEqual(response.status_code, 200)
+    @mock.patch('tools.removeFromBasket', removeFromBasketHelper)
+    @mock.patch('tools.authenticateUser', unauthenticatedUserHelper)
+    def test_remove_from_basket_not_logged_in(self):
+        response = self.app.post(
+            '/remove_from_basket', data=dict(basketIndex='0'))
+        self.assertIn('You should be redirected automatically to target URL: <a href="/login">/login</a>',
+                      str(response.data))
+        self.assertEqual(response.status_code, 302)
+
+    @mock.patch('tools.removeFromBasket', removeFromBasketHelper)
+    @mock.patch('tools.authenticateUser', authenticatedUserHelper)
+    def test_remove_from_basket_logged_in(self):
+        response = self.app.post(
+            '/remove_from_basket', data=dict(basketIndex='0'))
+        self.assertIn('You should be redirected automatically to target URL: <a href="/basket">/basket</a>',
+                      str(response.data))
+        self.assertEqual(response.status_code, 302)
 
     def test_404(self):
         response = self.app.get('/notavalidroute')
