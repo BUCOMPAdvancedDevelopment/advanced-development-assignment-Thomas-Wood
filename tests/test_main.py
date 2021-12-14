@@ -23,7 +23,7 @@ class TestHTTPMethods(unittest.TestCase):
                 'userId': '3FCEQ8ZzLjXsmQwv9Yc8Q4oYOfp1',
                 'email': '123@gmail.com',
                 'name': 'Mr 123',
-                'admin': False,
+                'admin': 'False',
                 'orders': [{
                     'timestamp': '2021-12-13 15:07:02.188034',
                     'name': 'Mr 123',
@@ -47,7 +47,7 @@ class TestHTTPMethods(unittest.TestCase):
 
     def adminUserHelper(token):
         user = TestHTTPMethods.authenticatedUserHelper(token)
-        user['admin'] = True
+        user['user_data']['admin'] = 'True'
         return user
 
     def addToBasketHelper(userId, productId, qty):
@@ -58,6 +58,9 @@ class TestHTTPMethods(unittest.TestCase):
 
     def getProductHelper(productId):
         return {
+            '_id': {
+                '$oid': 'id'
+            },
             'title': 'Simple Product Name',
             'description': 'Simple Description',
             'pricePerUnit': '10.00',
@@ -198,6 +201,30 @@ class TestHTTPMethods(unittest.TestCase):
         self.assertIn('You should be redirected automatically to target URL: <a href="/orders">/orders</a>',
                       str(response.data))
         self.assertEqual(response.status_code, 302)
+
+    @mock.patch('tools.getProduct', getProductHelper)
+    @mock.patch('tools.authenticateUser', unauthenticatedUserHelper)
+    def test_update_product_not_logged_in(self):
+        response = self.app.get('/update_product', query_string=dict(id='456'))
+        self.assertIn('You should be redirected automatically to target URL: <a href="/login">/login</a>',
+                      str(response.data))
+        self.assertEqual(response.status_code, 302)
+
+    @mock.patch('tools.getProduct', getProductHelper)
+    @mock.patch('tools.authenticateUser', authenticatedUserHelper)
+    def test_update_product_logged_in(self):
+        response = self.app.get('/update_product', query_string=dict(id='456'))
+        self.assertIn('Your account does not have the permissions required to access this page',
+                      str(response.data))
+        self.assertEqual(response.status_code, 403)
+
+    @mock.patch('tools.getProduct', getProductHelper)
+    @mock.patch('tools.authenticateUser', adminUserHelper)
+    def test_update_product_admin(self):
+        response = self.app.get('/update_product', query_string=dict(id='456'))
+        self.assertIn('Current image (uploading a new image will replace this)',
+                      str(response.data))
+        self.assertEqual(response.status_code, 200)
 
     def test_404(self):
         response = self.app.get('/notavalidroute')
