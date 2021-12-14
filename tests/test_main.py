@@ -266,6 +266,30 @@ class TestHTTPMethods(unittest.TestCase):
                       str(response.data))
         self.assertEqual(response.status_code, 200)
 
+    @mock.patch('tools.getUserData', authenticatedUserHelper)
+    @mock.patch('tools.authenticateUser', unauthenticatedUserHelper)
+    def test_edit_user_not_logged_in(self):
+        response = self.app.get('/edit_user')
+        self.assertIn('You should be redirected automatically to target URL: <a href="/login">/login</a>',
+                      str(response.data))
+        self.assertEqual(response.status_code, 302)
+
+    @mock.patch('tools.getUserData', authenticatedUserHelper)
+    @mock.patch('tools.authenticateUser', authenticatedUserHelper)
+    def test_edit_user_logged_in(self):
+        response = self.app.get('/edit_user')
+        self.assertIn('Your account does not have the permissions required to access this page',
+                      str(response.data))
+        self.assertEqual(response.status_code, 403)
+
+    @mock.patch('tools.getUserData', authenticatedUserHelper)
+    @mock.patch('tools.authenticateUser', adminUserHelper)
+    def test_edit_user_admin(self):
+        response = self.app.get('/edit_user')
+        self.assertIn('Edit User',
+                      str(response.data))
+        self.assertEqual(response.status_code, 200)
+
     def test_404(self):
         response = self.app.get('/notavalidroute')
         self.assertIn('The requested URL was not found on the server',
