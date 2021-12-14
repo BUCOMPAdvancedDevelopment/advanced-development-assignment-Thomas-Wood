@@ -50,6 +50,9 @@ class TestHTTPMethods(unittest.TestCase):
         user['admin'] = True
         return user
 
+    def addToBasketHelper(userId, productId, qty):
+        return 201
+
     def test_root(self):
         response = self.app.get('/')
         self.assertIn("<h1>Welcome to BTEC Furniture </h1>",
@@ -89,11 +92,26 @@ class TestHTTPMethods(unittest.TestCase):
                       str(response.data))
         self.assertEqual(response.status_code, 200)
 
-    # def test_post(self):
-    #     response = self.app.get('/post')
-    #     self.assertIn('<input type="submit">',
-    #                   str(response.data))
-    #     self.assertEqual(response.status_code, 200)
+    @mock.patch('tools.addToBasket', addToBasketHelper)
+    @mock.patch('tools.authenticateUser', unauthenticatedUserHelper)
+    def test_add_to_basket_not_logged_in(self):
+        response = self.app.post('/add_to_basket', data=dict(
+            id='619bb55c11dd33ac12d5aa12',
+            qty='5'
+        ))
+        self.assertIn('You should be redirected automatically to target URL: <a href="/login">/login</a>',
+                      str(response.data))
+        self.assertEqual(response.status_code, 302)
+
+    @mock.patch('tools.addToBasket', addToBasketHelper)
+    @mock.patch('tools.authenticateUser', authenticatedUserHelper)
+    def test_add_to_basket_logged_in(self):
+        response = self.app.post('/add_to_basket', data=dict(
+            id='619bb55c11dd33ac12d5aa12',
+            qty='5'
+        ))
+        self.assertIn('Success', str(response.data))
+        self.assertEqual(response.status_code, 201)
 
     # @mock.patch('requests.get', lambda url, params: SimpleNamespace(content=201))
     # def test_submitted(self):
