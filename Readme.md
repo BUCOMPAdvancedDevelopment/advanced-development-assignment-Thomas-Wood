@@ -29,6 +29,8 @@ This folder contains all the unit tests for this project. It makes use of the [u
 
 Each file tests a single other file. The test file is the name of the file being tested prefixed by "test\_". For example: main.py is tested in the test_main.py file.
 
+Mocks have been used to fake the functionality of some function calls. Ideally everything outside of the file under test would be mocked but due to time constraints, only some key areas have been mocked including the Auth calls to Firebase and any write operations to the databases.
+
 # Useful commands
 
 To start the server (Ctrl + c to shutdown)
