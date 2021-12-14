@@ -95,6 +95,12 @@ class TestHTTPMethods(unittest.TestCase):
     def uploadImageHelper(imageId, base64Image):
         return 200
 
+    def updateProductHelper(params):
+        return 200
+
+    def deleteImageHelper(imageId):
+        return 200
+
     def test_root(self):
         response = self.app.get('/')
         self.assertIn("<h1>Welcome to BTEC Furniture </h1>",
@@ -453,9 +459,72 @@ class TestHTTPMethods(unittest.TestCase):
         self.assertIn('Product created', str(response.data))
         self.assertEqual(response.status_code, 200)
 
+    @mock.patch('tools.getProduct', getProductHelper)
+    @mock.patch('tools.updateProduct', updateProductHelper)
+    @mock.patch('tools.uploadImage', uploadImageHelper)
+    @mock.patch('tools.deleteImage', deleteImageHelper)
+    @mock.patch('tools.authenticateUser', unauthenticatedUserHelper)
+    def test_update_product_submitted_form_not_logged_in(self):
+        data = {
+            'id': '123',
+            'title': 'Some product title',
+            'description': 'A nice description',
+            'pricePerUnit': '5.99',
+            'qty': '5',
+            'tags': 'long,list,of,tags',
+        }
+        data['image'] = (io.BytesIO(b'test'), 'test_file.jpg')
+        response = self.app.post(
+            '/update_product_submitted', data=data, content_type='multipart/form-data')
+        self.assertIn('You should be redirected automatically to target URL: <a href="/login">/login</a>',
+                      str(response.data))
+        self.assertEqual(response.status_code, 302)
+
+    @mock.patch('tools.getProduct', getProductHelper)
+    @mock.patch('tools.updateProduct', updateProductHelper)
+    @mock.patch('tools.uploadImage', uploadImageHelper)
+    @mock.patch('tools.deleteImage', deleteImageHelper)
+    @mock.patch('tools.authenticateUser', authenticatedUserHelper)
+    def test_update_product_submitted_form_logged_in(self):
+        data = {
+            'id': '123',
+            'title': 'Some product title',
+            'description': 'A nice description',
+            'pricePerUnit': '5.99',
+            'qty': '5',
+            'tags': 'long,list,of,tags',
+        }
+        data['image'] = (io.BytesIO(b'test'), 'test_file.jpg')
+        response = self.app.post(
+            '/update_product_submitted', data=data, content_type='multipart/form-data')
+        self.assertIn('Your account does not have the permissions required to access this page',
+                      str(response.data))
+        self.assertEqual(response.status_code, 403)
+
+    @mock.patch('tools.getProduct', getProductHelper)
+    @mock.patch('tools.updateProduct', updateProductHelper)
+    @mock.patch('tools.uploadImage', uploadImageHelper)
+    @mock.patch('tools.deleteImage', deleteImageHelper)
+    @mock.patch('tools.authenticateUser', adminUserHelper)
+    def test_update_product_submitted_form_admin(self):
+        data = {
+            'id': '123',
+            'title': 'Some product title',
+            'description': 'A nice description',
+            'pricePerUnit': '5.99',
+            'qty': '5',
+            'tags': 'long,list,of,tags',
+        }
+        data['image'] = (io.BytesIO(b'test'), 'test_file.jpg')
+        response = self.app.post(
+            '/update_product_submitted', data=data, content_type='multipart/form-data')
+        self.assertIn('The product details have been updated',
+                      str(response.data))
+        self.assertEqual(response.status_code, 200)
+
     def test_404(self):
         response = self.app.get('/notavalidroute')
-        self.assertIn('The requested URL was not found on server',
+        self.assertIn('The requested URL was not found on the server',
                       str(response.data))
         self.assertEqual(response.status_code, 404)
 
