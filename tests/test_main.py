@@ -373,6 +373,32 @@ class TestHTTPMethods(unittest.TestCase):
                       str(response.data))
         self.assertEqual(response.status_code, 200)
 
+    @mock.patch('tools.updateUser', updateUserHelper)
+    @mock.patch('tools.authenticateUser', unauthenticatedUserHelper)
+    def test_update_personal_details_submitted_not_logged_in(self):
+        response = self.app.post('/update_personal_details_submitted', data=dict(
+            userId='456',
+            name='Dave',
+            admin='on',
+            orderStatusIndex0='Preparing',
+            orderStatusIndex1='Delivered'))
+        self.assertIn('You should be redirected automatically to target URL: <a href="/login">/login</a>',
+                      str(response.data))
+        self.assertEqual(response.status_code, 302)
+
+    @mock.patch('tools.updateUser', updateUserHelper)
+    @mock.patch('tools.authenticateUser', authenticatedUserHelper)
+    def test_update_personal_details_submitted_logged_in(self):
+        response = self.app.post('/update_personal_details_submitted', data=dict(
+            userId='456',
+            name='Dave',
+            admin='on',
+            orderStatusIndex0='Preparing',
+            orderStatusIndex1='Delivered'))
+        self.assertIn('Your account has been updated',
+                      str(response.data))
+        self.assertEqual(response.status_code, 200)
+
     def test_404(self):
         response = self.app.get('/notavalidroute')
         self.assertIn('The requested URL was not found on the server',
