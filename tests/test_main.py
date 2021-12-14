@@ -80,6 +80,9 @@ class TestHTTPMethods(unittest.TestCase):
     def deleteUserHelper(id):
         return 200
 
+    def updateUserHelper(data):
+        return 200
+
     def getUserSummariesHelper():
         return [{
             'userId': '3FCEQ8ZzLjXsmQwv9Yc8Q4oYOfp1',
@@ -314,6 +317,45 @@ class TestHTTPMethods(unittest.TestCase):
     def test_delete_user_admin(self):
         response = self.app.get('/delete_user', query_string=dict(id='456'))
         self.assertIn('The user account has been deleted',
+                      str(response.data))
+        self.assertEqual(response.status_code, 200)
+
+    @mock.patch('tools.updateUser', updateUserHelper)
+    @mock.patch('tools.authenticateUser', unauthenticatedUserHelper)
+    def test_update_user_submitted_not_logged_in(self):
+        response = self.app.post('/update_user_submitted', data=dict(
+            userId='456',
+            name='Dave',
+            admin='on',
+            orderStatusIndex0='Preparing',
+            orderStatusIndex1='Delivered'))
+        self.assertIn('You should be redirected automatically to target URL: <a href="/login">/login</a>',
+                      str(response.data))
+        self.assertEqual(response.status_code, 302)
+
+    @mock.patch('tools.updateUser', updateUserHelper)
+    @mock.patch('tools.authenticateUser', authenticatedUserHelper)
+    def test_update_user_submitted_logged_in(self):
+        response = self.app.post('/update_user_submitted', data=dict(
+            userId='456',
+            name='Dave',
+            admin='on',
+            orderStatusIndex0='Preparing',
+            orderStatusIndex1='Delivered'))
+        self.assertIn('Your account does not have the permissions required to access this page',
+                      str(response.data))
+        self.assertEqual(response.status_code, 403)
+
+    @mock.patch('tools.updateUser', updateUserHelper)
+    @mock.patch('tools.authenticateUser', adminUserHelper)
+    def test_update_user_submitted_admin(self):
+        response = self.app.post('/update_user_submitted', data=dict(
+            userId='456',
+            name='Dave',
+            admin='on',
+            orderStatusIndex0='Preparing',
+            orderStatusIndex1='Delivered'))
+        self.assertIn('The user account has been updated',
                       str(response.data))
         self.assertEqual(response.status_code, 200)
 
