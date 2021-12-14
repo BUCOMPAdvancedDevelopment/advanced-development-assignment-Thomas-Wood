@@ -370,6 +370,62 @@ def update_user():
                                    user_data=authContent['user_data'])
 
 
+@app.route('/update_personal_details', methods=['GET'])
+def view_personal_details():
+    """This shows a user their details and allows them to edit some parts
+    Account: Required
+    Admin: Not required
+    """
+    authContent = tools.authenticateUser(request.cookies.get("token"))
+
+    # If not authenticated
+    if authContent['user_data'] == None:
+        return redirect(url_for('login'))
+    else:
+        return render_template('edit_personal_details.html',
+                               user_data=authContent['user_data'])
+
+
+@app.route('/update_personal_details_submitted', methods=['POST'])
+def update_personal_details():
+    """This updates a user's own details
+    Account: Required
+    Admin: Not required
+    """
+    authContent = tools.authenticateUser(request.cookies.get("token"))
+
+    # If not authenticated
+    if authContent['user_data'] == None:
+        return redirect(url_for('login'))
+    else:
+        admin = authContent['user_data']['admin']
+
+        orderStatuses = []
+        for key in request.form.keys():
+            if "orderStatusIndex" in key:
+                orderStatuses.append(request.form[key])
+
+        params = {
+            'userId': request.form['userId'],
+            'name': request.form['name'],
+            'admin': admin,
+            'orderStatuses': json.dumps(orderStatuses)
+        }
+
+        response = tools.updateUser(params)
+
+        if response == 200:
+            return render_template('message.html',
+                                   message_title='Details Updated',
+                                   message_body='Your account has been updated',
+                                   user_data=authContent['user_data'])
+        else:
+            return render_template('message.html',
+                                   message_title='Something went wrong',
+                                   message_body="We're looking into the problem, try again in a few mins",
+                                   user_data=authContent['user_data'])
+
+
 @app.route('/create_product_submitted', methods=['POST'])
 def create_product_submitted_form():
     """This creates a new product then redirects the admin to a confirmation page

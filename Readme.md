@@ -41,7 +41,12 @@ To run the tests (from the root directory)
 
 # TODO
 
+Customer must be able to update their existing orders
+View more product information
+Data connection issues?
+
 Add more unit tests (for main.py and tools.py)
 PEP8 check
-Comment functions
 Update databaseDetails folder with current data
+Final brief check
+Video - Brief includes retrospective stuff
